@@ -1,5 +1,6 @@
 package com.banquito.core.banking.clientes.dao;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
@@ -15,6 +16,8 @@ public interface ClienteRepository extends CrudRepository<ClienteRepository, Int
 
     // NUEVOS
     Cliente findByNumeroIdentificacionOrCorreoElectronico(String tipoIdentificacion, String correoElectronico);
-    
+    Cliente findByNombreComercialOrRazonSocial(String nombreComercial, String razonSocial);
+    List<Cliente> findByTipoClienteAndFechaNacimientoBetween(String tipoCliente, LocalDate fechaInicio, LocalDate fechaFin);
+
 
 }
