@@ -14,18 +14,18 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 @Entity
-@Table(name="TIPO_RELACION")
+@Table(name="tipo_relacion")
 public class TipoRelacion {
 
     @Id
-    @Column(name = "COD_TIPO_RELACION", nullable = false, length = 3)
+    @Column(name = "cod_tipo_relacion", nullable = false, length = 3)
     private String codigo;
 
-    @Column(name = "NOMBRE", nullable = false, length = 30)
+    @Column(name = "nombre", nullable = false, length = 30)
     private String nombre;
 
-    @OneToMany(mappedBy = "tipoRelacion")
-    private List<ClientePersonaRelacion> ClientePersonaRelacion;
+    //@OneToMany(mappedBy = "tipoRelacion")
+    //private List<ClientePersonaRelacion> clientePersonaRelacion;
 
     public TipoRelacion(String codigo){
         this.codigo = codigo;

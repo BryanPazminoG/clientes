@@ -27,7 +27,7 @@ public class ClientePersonaRelacion {
     @Column(name = "COD_CLIENTE_PERSONA_RELACION", nullable = false)
     private Integer codigo;
 
-    @Column(name = "COD_TIPO_RELACION", nullable = false, length = 3)
+    @Column(name = "cod_tipo_relacion", nullable = false, length = 3)
     private String codigoTipoRelacion;
 
     @Column(name = "COD_CLIENTE_EMPRESA", nullable = false)
@@ -47,13 +47,13 @@ public class ClientePersonaRelacion {
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
 
-    @ManyToOne
-    @JoinColumn(name = "COD_TIPO_RELACION", referencedColumnName = "COD_TIPO_RELACION", nullable = false)
-    private TipoRelacion tipoRelacion;
+    //@ManyToOne
+    //@JoinColumn(name = "cod_tipo_relacion", referencedColumnName = "cod_tipo_relacion", nullable = false, insertable = false, updatable = false)
+    //private TipoRelacion tipoRelacion;
 
-    @ManyToOne
-    @JoinColumn(name = "COD_CLIENTE_EMPRESA", referencedColumnName = "COD_CLIENTE", nullable = false)
-    private Cliente cliente;
+    //@ManyToOne
+    //@JoinColumn(name = "COD_CLIENTE_EMPRESA", referencedColumnName = "COD_CLIENTE", nullable = false)
+    //private Cliente cliente;
 
     //@ManyToOne
     //@JoinColumn(name = "COD_CLIENTE_PERSONA", referencedColumnName = "COD_CLIENTE", nullable = false)
