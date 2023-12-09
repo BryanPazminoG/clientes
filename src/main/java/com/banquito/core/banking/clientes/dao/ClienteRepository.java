@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import com.banquito.core.banking.clientes.domain.Cliente;
 
 
-public interface ClienteRepository extends CrudRepository<ClienteRepository, Integer>{
+public interface ClienteRepository extends CrudRepository<Cliente, Integer>{
 
     Cliente findByTipoIdentificacionAndNumeroIdentificacion(String tipoIdentificacion, String numeroIdentificacion);
     Cliente findByCorreoElectronico(String correoElectronico);

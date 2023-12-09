@@ -47,13 +47,13 @@ public class ClientePersonaRelacion {
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
 
-    @ManyToOne
-    @JoinColumn(name = "COD_TIPO_RELACION", referencedColumnName = "COD_TIPO_RELACION", nullable = false)
-    private TipoRelacion tipoRelacion;
+    //@ManyToOne
+    //@JoinColumn(name = "COD_TIPO_RELACION", referencedColumnName = "COD_TIPO_RELACION", nullable = false)
+    //private TipoRelacion tipoRelacion;
 
-    @ManyToOne
-    @JoinColumn(name = "COD_CLIENTE_EMPRESA", referencedColumnName = "COD_CLIENTE", nullable = false)
-    private Cliente cliente;
+    //@ManyToOne
+    //@JoinColumn(name = "COD_CLIENTE_EMPRESA", referencedColumnName = "COD_CLIENTE", nullable = false)
+    //private Cliente cliente;
 
     //@ManyToOne
     //@JoinColumn(name = "COD_CLIENTE_PERSONA", referencedColumnName = "COD_CLIENTE", nullable = false)

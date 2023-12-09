@@ -65,11 +65,11 @@ public class Cliente {
     @Column(name = "TELEFONO", nullable = false, length = 15)
     private String telefono;
 
-    @Version
-    private Long version;
+    //@Version
+    //private Long version;
 
-    @OneToMany(mappedBy = "cliente")
-    private List<ClientePersonaRelacion> personaRelacion;
+    //@OneToMany(mappedBy = "cliente")
+    //private List<ClientePersonaRelacion> personaRelacion;
 
     public Cliente(Integer codigo){
         this.codigo = codigo;

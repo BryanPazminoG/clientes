@@ -24,8 +24,8 @@ public class TipoRelacion {
     @Column(name = "NOMBRE", nullable = false, length = 30)
     private String nombre;
 
-    @OneToMany(mappedBy = "tipoRelacion")
-    private List<ClientePersonaRelacion> ClientePersonaRelacion;
+    //@OneToMany(mappedBy = "tipoRelacion")
+    //private List<ClientePersonaRelacion> clientePersonaRelacion;
 
     public TipoRelacion(String codigo){
         this.codigo = codigo;
