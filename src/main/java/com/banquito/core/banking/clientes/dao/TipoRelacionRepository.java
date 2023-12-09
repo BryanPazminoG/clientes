@@ -6,7 +6,7 @@ import com.banquito.core.banking.clientes.domain.TipoRelacion;
 
 
 
-public interface TipoRelacionRepository extends CrudRepository<TipoRelacionRepository, String>{
+public interface TipoRelacionRepository extends CrudRepository<TipoRelacion, String>{
     
     TipoRelacion findByNombre(String nombre);
 
