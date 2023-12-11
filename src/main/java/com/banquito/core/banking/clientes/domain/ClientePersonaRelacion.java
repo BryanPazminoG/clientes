@@ -12,12 +12,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Version;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
-@NoArgsConstructor
 @Entity
 @Table(name="CLIENTE_PERSONA_RELACION")
 public class ClientePersonaRelacion {
@@ -47,18 +46,23 @@ public class ClientePersonaRelacion {
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
 
-    //@ManyToOne
-    //@JoinColumn(name = "COD_TIPO_RELACION", referencedColumnName = "COD_TIPO_RELACION", nullable = false)
-    //private TipoRelacion tipoRelacion;
+    @ManyToOne
+    @JoinColumn(name = "COD_TIPO_RELACION", referencedColumnName = "COD_TIPO_RELACION", insertable = false, updatable = false)
+    private TipoRelacion tipoRelacion;
 
     //@ManyToOne
-    //@JoinColumn(name = "COD_CLIENTE_EMPRESA", referencedColumnName = "COD_CLIENTE", nullable = false)
-    //private Cliente cliente;
+    //@JoinColumn(name = "COD_CLIENTE_EMPRESA", referencedColumnName = "COD_CLIENTE", insertable = false, updatable = false)
+    //private Cliente clienteEmpresa;
 
     //@ManyToOne
-    //@JoinColumn(name = "COD_CLIENTE_PERSONA", referencedColumnName = "COD_CLIENTE", nullable = false)
-    //private Cliente persona;
+    //@JoinColumn(name = "COD_CLIENTE_PERSONA", referencedColumnName = "COD_CLIENTE", insertable = false, updatable = false)
+    //private Cliente clientePersona;
 
+    @Version
+    private Long version;
+
+    public ClientePersonaRelacion(){}
+    
     public ClientePersonaRelacion(Integer codigo){
         this.codigo = codigo;
     }
@@ -88,6 +92,14 @@ public class ClientePersonaRelacion {
         return true;
     }
 
-    
+    @Override
+    public String toString() {
+        return "ClientePersonaRelacion [codigo=" + codigo + ", codigoTipoRelacion=" + codigoTipoRelacion
+                + ", codigoClienteEmpresa=" + codigoClienteEmpresa + ", codigoClientePersona=" + codigoClientePersona
+                + ", estado=" + estado + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + ", tipoRelacion="
+                + tipoRelacion + ", version=" + version + "]";
+    }
+
+
 
 }

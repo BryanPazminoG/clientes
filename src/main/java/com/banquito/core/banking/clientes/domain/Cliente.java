@@ -1,24 +1,20 @@
 package com.banquito.core.banking.clientes.domain;
 
 import java.sql.Date;
-import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.Version;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
-@NoArgsConstructor
 @Entity
 @Table(name="CLIENTE")
 public class Cliente {
@@ -65,11 +61,10 @@ public class Cliente {
     @Column(name = "TELEFONO", nullable = false, length = 15)
     private String telefono;
 
-    //@Version
-    //private Long version;
+    @Version
+    private Long version;
 
-    //@OneToMany(mappedBy = "cliente")
-    //private List<ClientePersonaRelacion> personaRelacion;
+    public Cliente(){}
 
     public Cliente(Integer codigo){
         this.codigo = codigo;
@@ -100,6 +95,15 @@ public class Cliente {
         return true;
     }
 
-    
+    @Override
+    public String toString() {
+        return "Cliente [codigo=" + codigo + ", tipoCliente=" + tipoCliente + ", tipoIdentificacion="
+                + tipoIdentificacion + ", numeroIdentificacion=" + numeroIdentificacion + ", apellidos=" + apellidos
+                + ", nombres=" + nombres + ", fechaNacimiento=" + fechaNacimiento + ", fechaConstitucion="
+                + fechaConstitucion + ", razonSocial=" + razonSocial + ", nombreComercial=" + nombreComercial
+                + ", direccion=" + direccion + ", correoElectronico=" + correoElectronico + ", telefono=" + telefono
+                + ", version=" + version + "]";
+    }
+
 
 }
