@@ -13,11 +13,9 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
-@NoArgsConstructor
 @Entity
 @Table(name="CLIENTE_PERSONA_RELACION")
 public class ClientePersonaRelacion {
@@ -27,7 +25,7 @@ public class ClientePersonaRelacion {
     @Column(name = "COD_CLIENTE_PERSONA_RELACION", nullable = false)
     private Integer codigo;
 
-    @Column(name = "cod_tipo_relacion", nullable = false, length = 3)
+    @Column(name = "COD_TIPO_RELACION", nullable = false, length = 3)
     private String codigoTipoRelacion;
 
     @Column(name = "COD_CLIENTE_EMPRESA", nullable = false)
@@ -47,18 +45,20 @@ public class ClientePersonaRelacion {
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
 
-    //@ManyToOne
-    //@JoinColumn(name = "cod_tipo_relacion", referencedColumnName = "cod_tipo_relacion", nullable = false, insertable = false, updatable = false)
-    //private TipoRelacion tipoRelacion;
+    @ManyToOne
+    @JoinColumn(name = "COD_TIPO_RELACION", referencedColumnName = "COD_TIPO_RELACION", insertable = false, updatable = false)
+    private TipoRelacion tipoRelacion;
 
     //@ManyToOne
-    //@JoinColumn(name = "COD_CLIENTE_EMPRESA", referencedColumnName = "COD_CLIENTE", nullable = false)
-    //private Cliente cliente;
+    //@JoinColumn(name = "COD_CLIENTE_EMPRESA", referencedColumnName = "COD_CLIENTE", insertable = false, updatable = false)
+    //private Cliente clienteEmpresa;
 
     //@ManyToOne
-    //@JoinColumn(name = "COD_CLIENTE_PERSONA", referencedColumnName = "COD_CLIENTE", nullable = false)
-    //private Cliente persona;
+    //@JoinColumn(name = "COD_CLIENTE_PERSONA", referencedColumnName = "COD_CLIENTE", insertable = false, updatable = false)
+    //private Cliente clientePersona;
 
+    public ClientePersonaRelacion(){}
+    
     public ClientePersonaRelacion(Integer codigo){
         this.codigo = codigo;
     }
@@ -88,6 +88,12 @@ public class ClientePersonaRelacion {
         return true;
     }
 
-    
+    @Override
+    public String toString() {
+        return "ClientePersonaRelacion [codigo=" + codigo + ", codigoTipoRelacion=" + codigoTipoRelacion
+                + ", codigoClienteEmpresa=" + codigoClienteEmpresa + ", codigoClientePersona=" + codigoClientePersona
+                + ", estado=" + estado + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + ", tipoRelacion="
+                + tipoRelacion + "]";
+    }
 
 }

@@ -8,4 +8,11 @@ public interface ClienteService {
 
     List<Cliente> getAll();
 
+    List<Cliente> getByCorreo(String correo);
+
+    List<Cliente> getByTipoIdentificacionAndNumeroIdentificacion(String tipoIdentificacion, String numeroIdentificacion);
+
+    Cliente getByNombreComercialOrRazonSocial(String empresa);
+
+
 }

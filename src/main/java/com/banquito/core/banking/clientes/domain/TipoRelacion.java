@@ -1,31 +1,25 @@
 package com.banquito.core.banking.clientes.domain;
 
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
-@NoArgsConstructor
 @Entity
-@Table(name="tipo_relacion")
+@Table(name="TIPO_RELACION")
 public class TipoRelacion {
 
     @Id
-    @Column(name = "cod_tipo_relacion", nullable = false, length = 3)
+    @Column(name = "COD_TIPO_RELACION", nullable = false, length = 3)
     private String codigo;
 
-    @Column(name = "nombre", nullable = false, length = 30)
+    @Column(name = "NOMBRE", nullable = false, length = 30)
     private String nombre;
 
-    //@OneToMany(mappedBy = "tipoRelacion")
-    //private List<ClientePersonaRelacion> clientePersonaRelacion;
+    public TipoRelacion(){}
 
     public TipoRelacion(String codigo){
         this.codigo = codigo;
@@ -55,5 +49,12 @@ public class TipoRelacion {
             return false;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "TipoRelacion [codigo=" + codigo + ", nombre=" + nombre + "]";
+    }
+
+    
 
 }
