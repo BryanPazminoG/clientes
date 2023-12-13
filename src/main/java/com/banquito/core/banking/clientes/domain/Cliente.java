@@ -38,7 +38,7 @@ public class Cliente {
     @Column(name = "NOMBRES", nullable = false, length = 100)
     private String nombres;
 
-    @Column(name = "FECHA_NACIMIENTO", nullable = false)
+    @Column(name = "FECHA_NACIMIENTO", nullable = false)    
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 

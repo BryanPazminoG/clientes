@@ -8,7 +8,6 @@ import com.banquito.core.banking.clientes.domain.TipoRelacion;
 
 @Repository
 public interface TipoRelacionRepository extends CrudRepository<TipoRelacion, String>{
-    
-    TipoRelacion findByNombre(String nombre);
+
 
 }
