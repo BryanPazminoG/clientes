@@ -12,9 +12,11 @@ public interface ClienteRepository extends CrudRepository<Cliente, Integer>{
 
     List<Cliente> findByTipoIdentificacionAndNumeroIdentificacion(String tipoIdentificacion, String numeroIdentificacion);
     List<Cliente> findByCorreoElectronico(String correoElectronico);
-    List<Cliente> findByTelefono(String telefono);
+    List<Cliente> findByTelefonoOrderByCodigo(String telefono);
     
-    Cliente findByNombreComercialOrRazonSocial(String nombreComercial, String razonSocial);
+    List<Cliente> findByTipoClienteAndApellidosLikeOrderByApellidos(String tipoCliente, String apellido);
+    //List<Cliente> findByTipoClienteAndRazonSocialLikeOrderByRazonSocial(String tipoCliente, String razonSocial);
+
     
 
 }
