@@ -29,7 +29,7 @@ public class ClienteService {
         return this.clienteRepository.findById(id);
     }
 
-    public Iterable<TipoRelacion> listAll(){
+    public Iterable<TipoRelacion> buscarTodo(){
         return this.tipoRelacionRepository.findAll();
     }
 
