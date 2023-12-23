@@ -3,7 +3,6 @@ package com.banquito.core.banking.clientes.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +22,12 @@ public class ClienteController {
     //     return new ResponseEntity<Iterable<>>(clienteService.buscarTodo(), HttpStatus.OK);
     // }
 
-    @PostMapping("/save")
-    public ResponseEntity<Cliente> Save(@RequestBody Cliente cliente) {
+    @PostMapping("/guardar")
+    public ResponseEntity<Cliente> Guardar(@RequestBody Cliente cliente) {
         return new ResponseEntity<>(clienteService.crearPersona(cliente), HttpStatus.OK);
     }
+
+
 
 
 

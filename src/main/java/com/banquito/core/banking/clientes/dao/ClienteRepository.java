@@ -17,6 +17,4 @@ public interface ClienteRepository extends CrudRepository<Cliente, Integer>{
     List<Cliente> findByTipoClienteAndApellidosLikeOrderByApellidos(String tipoCliente, String apellido);
     //List<Cliente> findByTipoClienteAndRazonSocialLikeOrderByRazonSocial(String tipoCliente, String razonSocial);
 
-    
-
 }
