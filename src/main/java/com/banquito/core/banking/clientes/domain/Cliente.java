@@ -1,6 +1,7 @@
 package com.banquito.core.banking.clientes.domain;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -60,6 +61,10 @@ public class Cliente {
 
     @Column(name = "TELEFONO", nullable = false, length = 15)
     private String telefono;
+
+    @Column(name = "FECHA_ULTIMO_CAMBIO", nullable = false, length = 15)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp fechaModificacion;
 
     @Version
     private Long version;

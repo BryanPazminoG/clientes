@@ -64,6 +64,10 @@ public class ClienteService {
         return this.clienteRepository.findByTipoClienteAndApellidosLikeOrderByApellidos(apellidos, apellidos);
     }
 
+    public Cliente obtenerClientePorTipoYNumeroIdentificacion(String tipoIdentificacion, String numeroIdentificacion){
+        return this.clienteRepository.findByTipoIdentificacionAndNumeroIdentificacion(tipoIdentificacion, numeroIdentificacion);
+    }
+
 
 
 }

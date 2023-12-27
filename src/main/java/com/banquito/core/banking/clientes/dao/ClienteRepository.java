@@ -10,7 +10,9 @@ import com.banquito.core.banking.clientes.domain.Cliente;
 @Repository
 public interface ClienteRepository extends CrudRepository<Cliente, Integer>{
 
-    List<Cliente> findByTipoIdentificacionAndNumeroIdentificacion(String tipoIdentificacion, String numeroIdentificacion);
+    Cliente findByTipoIdentificacionAndNumeroIdentificacion(String tipoIdentificacion, String numeroIdentificacion);
+
+
     List<Cliente> findByCorreoElectronico(String correoElectronico);
     List<Cliente> findByTelefonoOrderByCodigo(String telefono);
     
