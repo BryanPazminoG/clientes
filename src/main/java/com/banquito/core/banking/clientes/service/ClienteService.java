@@ -68,6 +68,20 @@ public class ClienteService {
         return this.clienteRepository.findByTipoIdentificacionAndNumeroIdentificacion(tipoIdentificacion, numeroIdentificacion);
     }
 
+    public Cliente actualizar(Cliente personaUpdate) {
+        try {
+            Optional<Cliente> persona = clienteRepository.findById(personaUpdate.getCodigo());
+            if (persona.isPresent()) {
+                return clienteRepository.save(personaUpdate);
+            } else {
+                throw new RuntimeException(
+                    "El Credito con numero de identificacion" + personaUpdate.getNumeroIdentificacion() + " no existe");
+            }
+        } catch (Exception e) {
+            throw new CreacionException("Ocurrio un error al actualizar el Credito, error: " + e.getMessage(), e);
+        }
+    }
+
 
 
 }
