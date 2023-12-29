@@ -22,14 +22,14 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-    // @GetMapping("/listar")
-    // public ResponseEntityIterable<><Cliente> Listar(@RequestBody Cliente cliente) {
-    //     return new ResponseEntity<Iterable<>>(clienteService.buscarTodo(), HttpStatus.OK);
-    // }
-
-    @PostMapping("/guardar")
-    public ResponseEntity<Cliente> Guardar(@RequestBody Cliente cliente) {
+    @PostMapping("/guardar/persona")
+    public ResponseEntity<Cliente> GuardarPersona(@RequestBody Cliente cliente) {
         return new ResponseEntity<>(clienteService.crearPersona(cliente), HttpStatus.OK);
+    }
+
+    @PostMapping("/guardar/empresa")
+    public ResponseEntity<Cliente> GuardarEmpresa(@RequestBody Cliente empresa) {
+        return new ResponseEntity<>(clienteService.crearEmpresa(empresa), HttpStatus.OK);
     }
 
     @GetMapping("/buscar")

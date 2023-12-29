@@ -33,13 +33,13 @@ public class Cliente {
     @Column(name = "NUMERO_IDENTIFICACION", nullable = false, length = 20)
     private String numeroIdentificacion;
 
-    @Column(name = "APELLIDOS", nullable = false, length = 100)
+    @Column(name = "APELLIDOS", length = 100)
     private String apellidos;
 
-    @Column(name = "NOMBRES", nullable = false, length = 100)
+    @Column(name = "NOMBRES", length = 100)
     private String nombres;
 
-    @Column(name = "FECHA_NACIMIENTO", nullable = false)    
+    @Column(name = "FECHA_NACIMIENTO")    
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 

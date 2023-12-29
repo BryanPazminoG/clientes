@@ -60,6 +60,24 @@ public class ClienteService {
     }
 
 
+    @Transactional
+    public Cliente crearEmpresa(Cliente empresa){
+    try {
+        if ("JUR".equals(empresa.getTipoCliente())){
+            if("RUC".equals(empresa.getTipoIdentificacion())){
+                return this.clienteRepository.save(empresa);
+            } else {
+                throw new RuntimeException("El tipo de identificacion es incorrecto.");
+            }
+        } else {
+            throw new RuntimeException("El tipo de empresa es incorrecto");
+        }
+    } catch (Exception e) {
+        throw new CreacionException("Error en creacion de la empresa: "+empresa+", Error: "+e, e);
+    }
+    }
+
+
     public List<Cliente> obtenerPersonaPorApellidos(String apellidos){
         return this.clienteRepository.findByTipoClienteAndApellidosLikeOrderByApellidos(apellidos, apellidos);
     }
