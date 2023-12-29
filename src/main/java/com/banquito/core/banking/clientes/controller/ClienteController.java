@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.banquito.core.banking.clientes.domain.Cliente;
+import com.banquito.core.banking.clientes.domain.ClientePersonaRelacion;
 import com.banquito.core.banking.clientes.service.ClienteService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -42,6 +43,21 @@ public class ClienteController {
         return new ResponseEntity<>(clienteService.actualizar(persona), HttpStatus.OK);
     }
 
-    
+    @PostMapping("/guardar/relacion-cliente")
+    public ResponseEntity<ClientePersonaRelacion> crearRelacionClientePersona(
+            @RequestBody Cliente empresa,
+            @RequestParam("tipoIdentificacionPersona") String tipoIdentificacionPersona,
+            @RequestParam("numeroIdentificacionPersona") String numeroIdentificacionPersona,
+            @RequestParam("codigoRelacion") String codigoRelacion
+    ) {
+        ClientePersonaRelacion relacion = clienteService.CrearClientePersonaRelacion(
+                empresa,
+                tipoIdentificacionPersona,
+                numeroIdentificacionPersona,
+                codigoRelacion
+        );
+
+        return new ResponseEntity<>(relacion, HttpStatus.OK);
+    }
 
 }

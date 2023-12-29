@@ -1,6 +1,7 @@
 package com.banquito.core.banking.clientes.domain;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,6 +46,10 @@ public class ClientePersonaRelacion {
     @Column(name = "FECHA_FIN", nullable = true)
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
+
+    @Column(name = "FECHA_ULTIMO_CAMBIO", nullable = false, length = 15)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp fechaModificacion;
 
     @ManyToOne
     @JoinColumn(name = "COD_TIPO_RELACION", referencedColumnName = "COD_TIPO_RELACION", insertable = false, updatable = false)

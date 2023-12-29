@@ -1,14 +1,18 @@
 package com.banquito.core.banking.clientes.service;
 
-import java.util.List;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Optional;
 
 
 import org.springframework.stereotype.Service;
 
+import com.banquito.core.banking.clientes.dao.ClientePersonaRelacionRepository;
 import com.banquito.core.banking.clientes.dao.ClienteRepository;
 import com.banquito.core.banking.clientes.dao.TipoRelacionRepository;
 import com.banquito.core.banking.clientes.domain.Cliente;
+import com.banquito.core.banking.clientes.domain.ClientePersonaRelacion;
 import com.banquito.core.banking.clientes.domain.TipoRelacion;
 
 import jakarta.transaction.Transactional;
@@ -17,20 +21,23 @@ import jakarta.transaction.Transactional;
 public class ClienteService {
 
     public static final String TIPO_CLIENTE_PERSONA = "NAT";
+    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     private final ClienteRepository clienteRepository;
     private final TipoRelacionRepository tipoRelacionRepository;
+    private final ClientePersonaRelacionRepository clientePersonaRelacionRepository;
 
-    public ClienteService(ClienteRepository clienteRepository, TipoRelacionRepository tipoRelacionRepository) {
+    public ClienteService(ClienteRepository clienteRepository, TipoRelacionRepository tipoRelacionRepository, ClientePersonaRelacionRepository clientePersonaRelacionRepository) {
         this.clienteRepository = clienteRepository;
         this.tipoRelacionRepository = tipoRelacionRepository;
+        this.clientePersonaRelacionRepository = clientePersonaRelacionRepository;
     }
 
     public Optional<Cliente> OptionalobtainById(Integer id){
         return this.clienteRepository.findById(id);
     }
 
-    public Iterable<TipoRelacion> buscarTodo(){
-        return this.tipoRelacionRepository.findAll();
+    public Cliente obtenerClientePorTipoYNumeroIdentificacion(String tipoIdentificacion, String numeroIdentificacion){
+        return this.clienteRepository.findByTipoIdentificacionAndNumeroIdentificacion(tipoIdentificacion, numeroIdentificacion);
     }
 
     @Transactional
@@ -78,14 +85,6 @@ public class ClienteService {
     }
 
 
-    public List<Cliente> obtenerPersonaPorApellidos(String apellidos){
-        return this.clienteRepository.findByTipoClienteAndApellidosLikeOrderByApellidos(apellidos, apellidos);
-    }
-
-    public Cliente obtenerClientePorTipoYNumeroIdentificacion(String tipoIdentificacion, String numeroIdentificacion){
-        return this.clienteRepository.findByTipoIdentificacionAndNumeroIdentificacion(tipoIdentificacion, numeroIdentificacion);
-    }
-
     public Cliente actualizar(Cliente personaUpdate) {
         try {
             Optional<Cliente> persona = clienteRepository.findById(personaUpdate.getCodigo());
@@ -99,6 +98,42 @@ public class ClienteService {
             throw new CreacionException("Ocurrio un error al actualizar el Credito, error: " + e.getMessage(), e);
         }
     }
+
+    @Transactional
+    public ClientePersonaRelacion CrearClientePersonaRelacion(Cliente empresa, String tipoIdentificacionPersona, String numeroIdentificacionPersona, String codigoRelacion){
+        try {
+            Cliente empresaGuardada = crearEmpresa(empresa);
+            Integer codigoEmpresa = empresaGuardada.getCodigo();
+
+            Cliente persona = obtenerClientePorTipoYNumeroIdentificacion(tipoIdentificacionPersona, numeroIdentificacionPersona);
+
+            if (persona != null) {
+
+                ClientePersonaRelacion relacion = new ClientePersonaRelacion();
+                relacion.setCodigoTipoRelacion(codigoRelacion);
+                relacion.setCodigoClienteEmpresa(codigoEmpresa);
+                relacion.setCodigoClientePersona(persona.getCodigo());
+                relacion.setEstado("ACT");
+
+                LocalDate fechaEspecifica = LocalDate.of(2023, 12, 29);
+                Date fechaSQL = Date.valueOf(fechaEspecifica);
+
+                relacion.setFechaInicio(fechaSQL);
+                relacion.setFechaFin(null);
+                relacion.setFechaModificacion(timestamp);
+                return clientePersonaRelacionRepository.save(relacion);
+                
+            } else {
+                throw new RuntimeException("No se encontró la persona con la información proporcionada.");
+            }
+
+        } catch (Exception e) {
+            throw new CreacionException("Error al crear la relación entre clientes: " + e.getMessage(), e);
+        }
+
+    } 
+
+
 
 
 
