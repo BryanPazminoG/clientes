@@ -1,9 +1,13 @@
 package com.banquito.core.banking.clientes.domain;
 
+import java.sql.Timestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.persistence.Version;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +23,11 @@ public class TipoRelacion {
 
     @Column(name = "NOMBRE", nullable = false, length = 30)
     private String nombre;
-
+    
+    @Column(name = "FECHA_ULTIMO_CAMBIO", nullable = false, length = 15)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp fechaModificacion;
+    
     @Version
     private Long version;
     
