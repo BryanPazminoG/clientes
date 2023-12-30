@@ -12,7 +12,6 @@ public interface ClienteRepository extends CrudRepository<Cliente, Integer>{
 
     Cliente findByTipoIdentificacionAndNumeroIdentificacion(String tipoIdentificacion, String numeroIdentificacion);
 
-
     List<Cliente> findByCorreoElectronico(String correoElectronico);
     List<Cliente> findByTelefonoOrderByCodigo(String telefono);
     

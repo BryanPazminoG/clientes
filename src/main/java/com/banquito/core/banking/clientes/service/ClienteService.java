@@ -32,8 +32,8 @@ public class ClienteService {
         this.clientePersonaRelacionRepository = clientePersonaRelacionRepository;
     }
 
-    public Optional<Cliente> OptionalobtainById(Integer id){
-        return this.clienteRepository.findById(id);
+    public Optional<Cliente> buscarClientePorId(Integer id) {
+        return clienteRepository.findById(id);
     }
 
     public Cliente obtenerClientePorTipoYNumeroIdentificacion(String tipoIdentificacion, String numeroIdentificacion){
@@ -100,11 +100,11 @@ public class ClienteService {
     }
 
     @Transactional
-    public ClientePersonaRelacion CrearClientePersonaRelacion(Cliente empresa, String tipoIdentificacionPersona, String numeroIdentificacionPersona, String codigoRelacion){
-        try {
-            Cliente empresaGuardada = crearEmpresa(empresa);
-            Integer codigoEmpresa = empresaGuardada.getCodigo();
+    public ClientePersonaRelacion CrearClientePersonaRelacion(Integer codigoEmpresa, String tipoIdentificacionPersona, String numeroIdentificacionPersona, String codigoRelacion){
 
+        
+        try {
+    
             Cliente persona = obtenerClientePorTipoYNumeroIdentificacion(tipoIdentificacionPersona, numeroIdentificacionPersona);
 
             if (persona != null) {
