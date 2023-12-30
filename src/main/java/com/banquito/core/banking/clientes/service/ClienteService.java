@@ -100,6 +100,8 @@ public class ClienteService {
         }
     }
 
-
+    public Optional<Cliente> obtenerClientePorCodCliente(Integer codigo){
+        return this.clienteRepository.findById(codigo);
+    }
 
 }

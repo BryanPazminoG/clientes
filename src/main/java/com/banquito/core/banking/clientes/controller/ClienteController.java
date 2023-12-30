@@ -1,10 +1,13 @@
 package com.banquito.core.banking.clientes.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,8 +36,10 @@ public class ClienteController {
     }
 
     @GetMapping("/buscar")
-    public ResponseEntity<Cliente> buscarClientesPorParametros(@RequestParam("tipo") String tipo, @RequestParam("numero") String numero) {
-        return new ResponseEntity<>(clienteService.obtenerClientePorTipoYNumeroIdentificacion(tipo, numero), HttpStatus.OK);
+    public ResponseEntity<Cliente> buscarClientesPorParametros(@RequestParam("tipo") String tipo,
+            @RequestParam("numero") String numero) {
+        return new ResponseEntity<>(clienteService.obtenerClientePorTipoYNumeroIdentificacion(tipo, numero),
+                HttpStatus.OK);
     }
 
     @PutMapping("/actualizar/persona")
@@ -42,6 +47,15 @@ public class ClienteController {
         return new ResponseEntity<>(clienteService.actualizar(persona), HttpStatus.OK);
     }
 
-    
+    @GetMapping("/buscarporcodigo/{codigo}")
+    public ResponseEntity<Cliente> buscarClientePorCodigo(@PathVariable Integer codigo) {
+        Optional<Cliente> cliente = clienteService.obtenerClientePorCodCliente(codigo);
+
+        if (cliente.isPresent()) {
+            return new ResponseEntity<>(cliente.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 }
