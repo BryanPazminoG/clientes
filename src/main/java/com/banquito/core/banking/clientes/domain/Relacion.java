@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Relacion {
 
-    @Field("cliente_natural_id")
+    @Field("cliente_id")
     private String clienteId;
 
     @Field("tipo_relacion")
