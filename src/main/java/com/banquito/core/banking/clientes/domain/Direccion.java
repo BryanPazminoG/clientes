@@ -14,6 +14,14 @@ public class Direccion {
     @Field("tipo_direccion")
     private String tipoDireccion;
     
-    private String ubicacion;
+    private String calle;
+    private String numero;
+
+    @Field("codigo_postal")
+    private String codigoPostal;
+    
+    private String ciudad;
+    private String provincia;
+    private String pais;
     private String referencia;
 }

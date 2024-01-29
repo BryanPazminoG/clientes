@@ -18,20 +18,28 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Document(collection = "Empresas")
+@Document(collection = "Clientes")
 @CompoundIndexes({
         @CompoundIndex(name = "idxu_cliente_identificacion", def = "{'tipo_identificacion': 1, 'numero_identificacion': 1}", unique = true)
 })
-public class ClienteJuridico {
-
+public class Cliente {
     @Id
     private String id;
+
+    @Field("tipo_cliente")
+    private String tipoCliente;
 
     @Field("tipo_identificacion")
     private String tipoIdentificacion;
 
     @Field("numero_identificacion")
     private String numeroIdentificacion;
+
+    private String apellidos;
+    private String nombres;
+
+    @Field("fecha_nacimiento")
+    private Date fechaNacimiento;
 
     @Field("fecha_constitucion")
     private Date fechaConstitucion;
@@ -42,12 +50,12 @@ public class ClienteJuridico {
     @Field("nombre_comercial")
     private String nombreComercial;
 
-    private List<Direccion> direccion;
+    private List<Direccion> direcciones;
 
     @Field("correo_electronico")
     private String correoElectronico;
 
-    private List<Telefono> telefono;
+    private List<Telefono> telefonos;
     private String estado;
 
     @Field("fecha_creacion")
@@ -61,7 +69,7 @@ public class ClienteJuridico {
     @Version
     private Long version;
 
-    public ClienteJuridico (String id) {
+    public Cliente (String id) {
         this.id = id;
     }
 
@@ -81,7 +89,7 @@ public class ClienteJuridico {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ClienteJuridico other = (ClienteJuridico) obj;
+        Cliente other = (Cliente) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -90,5 +98,14 @@ public class ClienteJuridico {
         return true;
     }
 
-    
+    @Override
+    public String toString() {
+        return "Cliente [id=" + id + ", tipoCliente=" + tipoCliente + ", tipoIdentificacion=" + tipoIdentificacion
+                + ", numeroIdentificacion=" + numeroIdentificacion + ", apellidos=" + apellidos + ", nombres=" + nombres
+                + ", fechaNacimiento=" + fechaNacimiento + ", fechaConstitucion=" + fechaConstitucion + ", razonSocial="
+                + razonSocial + ", nombreComercial=" + nombreComercial + ", direcciones=" + direcciones
+                + ", correoElectronico=" + correoElectronico + ", telefonos=" + telefonos + ", estado=" + estado
+                + ", WhaCreacion=" + WhaCreacion + ", fechaUltimoCambio=" + fechaUltimoCambio + ", miembros=" + miembros
+                + ", version=" + version + "]";
+    }
 }
