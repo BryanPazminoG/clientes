@@ -10,7 +10,7 @@ import com.banquito.core.banking.clientes.domain.Cliente;
 import com.banquito.core.banking.clientes.service.ClienteService;
 
 @RestController
-@RequestMapping("/cliente-natural")
+@RequestMapping("/cliente")
 public class ClienteController {
 
     private final ClienteService clienteService;
