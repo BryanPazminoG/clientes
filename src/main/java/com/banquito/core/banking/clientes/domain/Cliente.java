@@ -59,7 +59,7 @@ public class Cliente {
     private String estado;
 
     @Field("fecha_creacion")
-    private LocalDateTime WhaCreacion;
+    private LocalDateTime fechaCreacion;
 
     @Field("fecha_ultimo_cambio")
     private LocalDateTime fechaUltimoCambio;
@@ -105,7 +105,7 @@ public class Cliente {
                 + ", fechaNacimiento=" + fechaNacimiento + ", fechaConstitucion=" + fechaConstitucion + ", razonSocial="
                 + razonSocial + ", nombreComercial=" + nombreComercial + ", direcciones=" + direcciones
                 + ", correoElectronico=" + correoElectronico + ", telefonos=" + telefonos + ", estado=" + estado
-                + ", WhaCreacion=" + WhaCreacion + ", fechaUltimoCambio=" + fechaUltimoCambio + ", miembros=" + miembros
+                + ", WhaCreacion=" + fechaCreacion + ", fechaUltimoCambio=" + fechaUltimoCambio + ", miembros=" + miembros
                 + ", version=" + version + "]";
     }
 }

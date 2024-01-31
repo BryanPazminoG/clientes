@@ -8,9 +8,7 @@ import com.banquito.core.banking.clientes.domain.Cliente;
 
 public interface ClienteRepository extends MongoRepository<Cliente, String> {
 
-    Cliente findByTipoIdentificacionAndNumeroIdentificacion(String tipoIdentificacion, String numeroIdentificacion);
-
-    Cliente findByCorreoElectronico(String correoElectronico);
+    List<Cliente> findByTipoIdentificacionAndNumeroIdentificacion(String tipoIdentificacion, String numeroIdentificacion);
 
     List<Cliente> findByTipoClienteOrderByApellidos(String tipoCliente);
 
