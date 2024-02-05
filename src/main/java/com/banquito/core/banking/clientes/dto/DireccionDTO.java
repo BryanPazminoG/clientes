@@ -1,15 +1,15 @@
-package com.banquito.core.banking.clientes.domain;
+package com.banquito.core.banking.clientes.dto;
 
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Builder
 @Getter
 @Setter
-@NoArgsConstructor
-public class Direccion {
+public class DireccionDTO {
 
     private String tipo;    
     private String linea1;

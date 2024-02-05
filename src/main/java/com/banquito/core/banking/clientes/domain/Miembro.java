@@ -1,6 +1,5 @@
 package com.banquito.core.banking.clientes.domain;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -12,10 +11,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Relacion {
+public class Miembro {
 
-    @Field("cliente_id")
-    private String clienteId;
+    @Field("id_cliente")
+    private String idCliente;
 
     @Field("tipo_relacion")
     private String tipoRelacion;
@@ -29,6 +28,6 @@ public class Relacion {
     private String estado;
 
     @Field("fecha_ultimo_cambio")
-    private LocalDateTime fechaUltimoCambio;
+    private Date fechaUltimoCambio;
 }
 

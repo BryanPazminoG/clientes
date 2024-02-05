@@ -18,11 +18,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Document(collection = "clientes")
+@Document(collection = "empresas")
 @CompoundIndexes({
         @CompoundIndex(name = "idxu_cliente_identificacion", def = "{'tipo_identificacion': 1, 'numero_identificacion': 1}", unique = true)
 })
-public class Cliente {
+public class Empresa {
     @Id
     private String id;
 
@@ -36,18 +36,21 @@ public class Cliente {
     @Field("numero_identificacion")
     private String numeroIdentificacion;
 
-    private String apellidos;
-    private String nombres;
+    @Field("fecha_constitucion")
+    private Date fechaConstitucion;
 
-    @Field("fecha_nacimiento")
-    private Date fechaNacimiento;
+    @Field("razon_social")
+    private String razonSocial;
 
-    private List<Direccion> direcciones;
+    @Field("nombre_comercial")
+    private String nombreComercial;
+
+    private Direccion direccion;
 
     @Field("correo_electronico")
     private String correoElectronico;
 
-    private List<Telefono> telefonos;
+    private String telefono;
     private String estado;
 
     @Field("fecha_creacion")
@@ -56,10 +59,12 @@ public class Cliente {
     @Field("fecha_ultimo_cambio")
     private Date fechaUltimoCambio;
 
+    private List<Miembro> miembros;
+
     @Version
     private Long version;
 
-    public Cliente (String id) {
+    public Empresa (String id) {
         this.id = id;
     }
 
@@ -79,7 +84,7 @@ public class Cliente {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Cliente other = (Cliente) obj;
+        Empresa other = (Empresa) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -90,10 +95,11 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente [id=" + id + ", idCliente=" + idCliente + ", tipoIdentificacion=" + tipoIdentificacion
-                + ", numeroIdentificacion=" + numeroIdentificacion + ", apellidos=" + apellidos + ", nombres=" + nombres
-                + ", fechaNacimiento=" + fechaNacimiento + ", direcciones=" + direcciones + ", correoElectronico="
-                + correoElectronico + ", telefonos=" + telefonos + ", estado=" + estado + ", fechaCreacion="
-                + fechaCreacion + ", fechaUltimoCambio=" + fechaUltimoCambio + ", version=" + version + "]";
+        return "Empresa [id=" + id + ", idCliente=" + idCliente + ", tipoIdentificacion=" + tipoIdentificacion
+                + ", numeroIdentificacion=" + numeroIdentificacion + ", fechaConstitucion=" + fechaConstitucion
+                + ", razonSocial=" + razonSocial + ", nombreComercial=" + nombreComercial + ", direccion=" + direccion
+                + ", correoElectronico=" + correoElectronico + ", telefono=" + telefono + ", estado=" + estado
+                + ", fechaCreacion=" + fechaCreacion + ", fechaUltimoCambio=" + fechaUltimoCambio + ", miembros="
+                + miembros + ", version=" + version + "]";
     }
 }
