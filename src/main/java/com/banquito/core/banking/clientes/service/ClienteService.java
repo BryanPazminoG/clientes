@@ -57,7 +57,7 @@ public class ClienteService {
         List<Cliente> clientes = this.clienteRepository.findByTipoIdentificacionAndNumeroIdentificacion(
                 tipoIdentificacion,
                 numeroIdentificacion);
-        if (clientes != null && clientes.isEmpty()) {
+        if (clientes != null && !clientes.isEmpty()) {
             if ("ACT".equals(clientes.getFirst().getEstado())) {
                 log.debug("Cliente obtenido: {}", clientes.getFirst());
                 return ClienteBuilder.toDTO(clientes.getFirst());

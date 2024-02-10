@@ -44,7 +44,7 @@ public class EmpresaController {
         }
     }
 
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/RUC/{id}")
     public ResponseEntity<EmpresaDTO> buscarPorIdentificacion(@PathVariable(name = "id") String id) {
         log.info("Obteniendo cliente juridico con TipoIdentificacion: RUC y NumeroIdentificacion: {}", id);
         try {
@@ -55,7 +55,7 @@ public class EmpresaController {
         }
     }
     
-    @PostMapping("/crear")
+    @PostMapping
     public ResponseEntity<Void> crear(@RequestBody EmpresaDTO empresa) {
         log.info("Se va a crear el cliente juridico: {}", empresa);
         try {
@@ -67,7 +67,7 @@ public class EmpresaController {
         }
     }
 
-    @PutMapping("/actualizar")
+    @PutMapping
     public ResponseEntity<Void> actualizar(@RequestBody EmpresaDTO empresa) {
         log.info("Se va a crear el cliente juridico: {}", empresa);
         try {
@@ -79,7 +79,7 @@ public class EmpresaController {
         }
     }
 
-    @PutMapping("/quitar/miembro/{idEmpresa}/{idMiembro}")
+    @PutMapping("/{idEmpresa}/miembros/{idMiembro}")
     public ResponseEntity<Void> quitarMiembroEmpresa(@PathVariable(name = "idEmpresa") String idEmpresa, @PathVariable(name = "idMiembro") String idMiembro) {
         log.info("Se va a desactivar miembro: {} de cliente juridico: {}", idMiembro, idEmpresa);
         try {
@@ -91,7 +91,7 @@ public class EmpresaController {
         }
     }
 
-    @PutMapping("/desactivar/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Void> desactivar(@PathVariable(name = "id") String id) {
         log.info("Se va a desactivar el cliente juridico con ID: {}", id);
         try {

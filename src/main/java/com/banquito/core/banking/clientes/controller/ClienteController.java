@@ -55,7 +55,7 @@ public class ClienteController {
         }
     }
     
-    @PostMapping("/crear")
+    @PostMapping
     public ResponseEntity<Void> crear(@RequestBody ClienteDTO cliente) {
         log.info("Se va a crear el cliente: {}", cliente);
         try {
@@ -67,9 +67,9 @@ public class ClienteController {
         }
     }
 
-    @PutMapping("/actualizar")
+    @PutMapping
     public ResponseEntity<Void> actualizar(@RequestBody ClienteDTO cliente) {
-        log.info("Se va a crear el cliente: {}", cliente);
+        log.info("Se va a actualizar el cliente: {}", cliente);
         try {
             this.clienteService.actualizar(cliente);
             return ResponseEntity.noContent().build();
@@ -79,7 +79,7 @@ public class ClienteController {
         }
     }
 
-    @PutMapping("/desactivar/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Void> desactivar(@PathVariable(name = "id") String id) {
         log.info("Se va a desactivar el cliente con ID: {}", id);
         try {
