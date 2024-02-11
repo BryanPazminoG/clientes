@@ -69,7 +69,7 @@ public class EmpresaController {
 
     @PutMapping
     public ResponseEntity<Void> actualizar(@RequestBody EmpresaDTO empresa) {
-        log.info("Se va a crear el cliente juridico: {}", empresa);
+        log.info("Se va a actualizar el cliente juridico: {}", empresa);
         try {
             this.empresaService.actualizar(empresa);
             return ResponseEntity.noContent().build();

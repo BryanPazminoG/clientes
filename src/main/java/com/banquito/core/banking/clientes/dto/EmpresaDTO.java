@@ -68,7 +68,7 @@ public class EmpresaDTO {
 
     @Override
     public String toString() {
-        return "ClienteDTO [idCliente=" + idCliente + ", tipoIdentificacion=" + tipoIdentificacion
+        return "EmpresaDTO [idCliente=" + idCliente + ", tipoIdentificacion=" + tipoIdentificacion
                 + ", numeroIdentificacion=" + numeroIdentificacion + ", fechaConstitucion=" + fechaConstitucion
                 + ", razonSocial=" + razonSocial + ", nombreComercial=" + nombreComercial + ", direccion=" + direccion
                 + ", correoElectronico=" + correoElectronico + ", telefono=" + telefono + ", estado=" + estado

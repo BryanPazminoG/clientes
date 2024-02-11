@@ -63,7 +63,7 @@ public class ClienteService {
                 return ClienteBuilder.toDTO(clientes.getFirst());
             } else {
                 throw new RuntimeException("Cliente con TipoIdentificacion: " + tipoIdentificacion
-                    + " y NumeroIdentificacion: " + numeroIdentificacion + " no se encuentra activo");
+                        + " y NumeroIdentificacion: " + numeroIdentificacion + " no se encuentra activo");
             }
         } else {
             throw new RuntimeException("No existe el cliente con TipoIdentificacion: " + tipoIdentificacion
@@ -90,11 +90,15 @@ public class ClienteService {
     public void actualizar(ClienteDTO dto) {
         try {
             Cliente clienteAux = this.clienteRepository.findByIdCliente(dto.getIdCliente());
-            Cliente clienteTmp = ClienteBuilder.toCliente(dto);
-            Cliente cliente = ClienteBuilder.copyCliente(clienteTmp, clienteAux);
-            cliente.setEstado("ACT");
-            this.clienteRepository.save(cliente);
-            log.info("Se actualizaron los datos del cliente: {}", cliente);
+            if ("ACT".equals(clienteAux.getEstado())) {
+                Cliente clienteTmp = ClienteBuilder.toCliente(dto);
+                Cliente cliente = ClienteBuilder.copyCliente(clienteTmp, clienteAux);
+                cliente.setEstado("ACT");
+                this.clienteRepository.save(cliente);
+                log.info("Se actualizaron los datos del cliente: {}", cliente);
+            } else {
+                log.error("No se puede actualizar, Cliente: {} se encuentra INACTIVO", clienteAux);
+            }
         } catch (Exception e) {
             throw new RuntimeException("Error al actualizar el cliente.", e);
         }

@@ -62,7 +62,7 @@ public class EmpresaService {
         List<Empresa> empresas = this.empresaRepository.findByTipoIdentificacionAndNumeroIdentificacion(
                 "RUC",
                 numeroIdentificacion);
-        if (empresas != null && empresas.isEmpty()) {
+        if (empresas != null && !empresas.isEmpty()) {
             if ("ACT".equals(empresas.getFirst().getEstado())) {
                 log.debug("Cliente juridico obtenido: {}", empresas.getFirst());
                 return EmpresaBuilder.toDTO(empresas.getFirst());
@@ -84,10 +84,10 @@ public class EmpresaService {
             empresa.setTipoIdentificacion("RUC");
             empresa.setEstado("ACT");
             empresa.getDireccion().setEstado("ACT");
-
+            empresa.setFechaCreacion(new Date());
             empresa.setMiembros(new ArrayList<>());
             for (MiembroDTO miembroDTO : dto.getMiembros()) {
-                if(this.clienteRepository.findByIdCliente(miembroDTO.getIdCliente()) != null) {
+                if (this.clienteRepository.findByIdCliente(miembroDTO.getIdCliente()) != null) {
                     Miembro miembro = new Miembro();
                     miembro.setIdCliente(miembroDTO.getIdCliente());
                     miembro.setTipoRelacion(miembroDTO.getTipoRelacion());
@@ -115,11 +115,31 @@ public class EmpresaService {
     public void actualizar(EmpresaDTO dto) {
         try {
             Empresa empresaAux = this.empresaRepository.findByIdCliente(dto.getIdCliente());
-            Empresa empresaTmp = EmpresaBuilder.toEmpresa(dto);
-            Empresa empresa = EmpresaBuilder.copyEmpresa(empresaTmp, empresaAux);
-            empresa.setEstado("ACT");
-            this.empresaRepository.save(empresa);
-            log.info("Se actualizaron los datos del cliente juridico: {}", empresa);
+            if ("ACT".equals(empresaAux.getEstado())) {
+                Empresa empresaTmp = EmpresaBuilder.toEmpresa(dto);
+                empresaTmp.setMiembros(new ArrayList<>());
+                for (MiembroDTO miembroDTO : dto.getMiembros()) {                
+                    if (this.clienteRepository.findByIdCliente(miembroDTO.getIdCliente()) != null) {
+                        Miembro miembro = new Miembro();
+                        miembro.setIdCliente(miembroDTO.getIdCliente());
+                        miembro.setTipoRelacion(miembroDTO.getTipoRelacion());
+                        miembro.setFechaInicio(miembroDTO.getFechaInicio());
+                        miembro.setFechaFin(miembroDTO.getFechaFin());
+                        miembro.setFechaUltimoCambio(new Date());
+                        miembro.setEstado(miembroDTO.getEstado());
+                        empresaTmp.getMiembros().add(miembro);
+                    } else {
+                        log.error("Miembro con ID: " + miembroDTO.getIdCliente() + " no existe");
+                    }
+                }
+                empresaTmp.setFechaUltimoCambio(new Date());
+                Empresa empresa = EmpresaBuilder.copyEmpresa(empresaTmp, empresaAux);
+                empresa.setEstado("ACT");
+                this.empresaRepository.save(empresa);
+                log.info("Se actualizaron los datos del cliente juridico: {}", empresa);
+            } else {
+                log.error("No se puede actualizar, Cliente juridico: {} se encuentra INACTIVO", empresaAux);
+            }
         } catch (Exception e) {
             throw new RuntimeException("Error al actualizar el cliente juridico", e);
         }
@@ -129,15 +149,15 @@ public class EmpresaService {
     public void quitarMiembroEmpresa(String idEmpresa, String idMiembro) {
         try {
             Empresa empresa = this.empresaRepository.findByIdCliente(idEmpresa);
-            for(Miembro miembro : empresa.getMiembros()) {
-                if(idMiembro.equals(miembro.getIdCliente())) {
+            for (Miembro miembro : empresa.getMiembros()) {
+                if (idMiembro.equals(miembro.getIdCliente())) {
                     miembro.setEstado("INA");
                     log.info("Se desactivo miembro: {} de cliente juridico: {}", idMiembro, idEmpresa);
                     break;
                 }
-            }       
+            }
             log.debug("Desactivando miembro: {} de cliente juridico: {}", idMiembro, idEmpresa);
-            this.empresaRepository.save(empresa);            
+            this.empresaRepository.save(empresa);
         } catch (Exception e) {
             throw new RuntimeException("Error al desactivar miembro: " + idMiembro, e);
         }
@@ -147,12 +167,12 @@ public class EmpresaService {
     public void desactivar(String idCliente) {
         try {
             Empresa empresa = this.empresaRepository.findByIdCliente(idCliente);
-            for(Miembro miembro : empresa.getMiembros()) {
-                if("ACT".equals(miembro.getEstado())) {
-                    log.error("Cliente juridico: {}, tiene miembros activos", idCliente); 
+            for (Miembro miembro : empresa.getMiembros()) {
+                if ("ACT".equals(miembro.getEstado())) {
+                    log.error("Cliente juridico: {}, tiene miembros activos", idCliente);
                     throw new RuntimeException("Miembro con ID: " + miembro.getIdCliente() + " se encuentra activo");
                 }
-            }            
+            }
             log.debug("Desactivando cliente juridico: {}, estado: INA", idCliente);
             empresa.setEstado("INA");
             this.empresaRepository.save(empresa);
