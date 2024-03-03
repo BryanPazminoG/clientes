@@ -1,5 +1,4 @@
-package com.banquito.core.banking.clientes.domain;
-
+package com.banquito.core.banking.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class Telefono {
-    
+
     private String tipo;
     private String numero;
     private String estado;
