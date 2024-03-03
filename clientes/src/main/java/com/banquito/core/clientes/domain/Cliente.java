@@ -1,4 +1,4 @@
-package com.banquito.core.banking.domain;
+package com.banquito.core.clientes.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
