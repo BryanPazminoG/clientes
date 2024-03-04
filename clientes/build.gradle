@@ -25,3 +25,11 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+bootJar {
+    mainClass = 'com.banquito.core.clientes.ClientesApplication'
+    with copySpec {
+        from 'src/main/resources'
+        include 'application.properties'
+    }
+}

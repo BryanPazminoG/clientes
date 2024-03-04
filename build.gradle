@@ -7,9 +7,16 @@ plugins {
 group = 'com.banquito.core.banking'
 version = '0.0.1-SNAPSHOT'
 
+// java {
+// 	sourceCompatibility = '21'
+// }
+
 java {
-	sourceCompatibility = '21'
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
+
 
 configurations {
 	compileOnly {
@@ -30,8 +37,10 @@ dependencies {
 
 
 	implementation project(':clientes')
-	implementation project(':empresas')
+	// implementation project(':empresas')
 }
+
+
 
 
 tasks.named('test') {

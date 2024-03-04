@@ -18,7 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@Document(collection = "clientes")
+@Document(collection = "Clientes")
 @CompoundIndexes({
         @CompoundIndex(name = "idxu_cliente_identificacion", def = "{'tipo_identificacion': 1, 'numero_identificacion': 1}", unique = true)
 })
@@ -27,7 +27,7 @@ public class Cliente {
     @Id
     private String id;
 
-    @Indexed(unique = true)
+    //@Indexed(unique = true)
     @Field("id_cliente")
     private String idCliente;
 
@@ -43,12 +43,14 @@ public class Cliente {
     @Field("fecha_nacimiento")
     private Date fechaNacimiento;
 
-    private List<Direccion> direcciones;
+    private String genero;
+
+    private List<Direccion> direccion;
 
     @Field("correo_electronico")
     private String correoElectronico;
 
-    private List<Telefono> telefonos;
+    private List<Telefono> telefono;
     private String estado;
 
     @Field("fecha_creacion")
@@ -64,5 +66,32 @@ public class Cliente {
         this.id = id;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Cliente other = (Cliente) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
+
+
+    
 
 }
