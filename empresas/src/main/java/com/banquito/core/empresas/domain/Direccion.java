@@ -1,4 +1,4 @@
-package com.banquito.core.banking.domain;
+package com.banquito.core.empresas.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

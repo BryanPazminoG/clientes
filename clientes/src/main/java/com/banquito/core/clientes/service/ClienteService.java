@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import com.banquito.core.clientes.dao.ClienteRepository;
 import com.banquito.core.clientes.domain.Cliente;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ClienteService {
 
@@ -18,7 +21,7 @@ public class ClienteService {
     }
 
     public List<Cliente> listarTodo() {
-        //log.info("Se va a obtener todos los clientes naturales");
+        log.info("Se va a obtener todos los clientes naturales");
         List<Cliente> dtos = new ArrayList<>();
         for (Cliente cliente : this.clienteRepository.findAll()) {
             if ("ACT".equals(cliente.getEstado())) {
@@ -29,11 +32,11 @@ public class ClienteService {
     }
 
     public Cliente obtenerPorId(String id) {
-        //log.info("Se va a obtener el cliente con ID: {}", id);
+        log.info("Se va a obtener el cliente con ID: {}", id);
         Cliente cliente = this.clienteRepository.findByIdCliente(id);
         if (cliente != null) {
             if ("ACT".equals(cliente.getEstado())) {
-                //log.debug("Cliente obtenido: {}", cliente);
+                log.debug("Cliente obtenido: {}", cliente);
                 return cliente;
             } 
              else {

@@ -1,6 +1,6 @@
-package com.banquito.core.banking.dao;
+package com.banquito.core.empresas.dao;
 
-import com.banquito.core.banking.domain.Empresa;
+import com.banquito.core.empresas.domain.Empresa;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

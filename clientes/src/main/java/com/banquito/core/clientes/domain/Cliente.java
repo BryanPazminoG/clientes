@@ -27,7 +27,7 @@ public class Cliente {
     @Id
     private String id;
 
-    //@Indexed(unique = true)
+    @Indexed(unique = true)
     @Field("id_cliente")
     private String idCliente;
 

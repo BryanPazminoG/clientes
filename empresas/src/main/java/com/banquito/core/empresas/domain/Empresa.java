@@ -1,4 +1,4 @@
-package com.banquito.core.banking.domain;
+package com.banquito.core.empresas.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@Document(collection = "empresas")
+@Document(collection = "Empresas")
 @CompoundIndexes({
         @CompoundIndex(name = "idxu_cliente_identificacion", def = "{'tipo_identificacion': 1, 'numero_identificacion': 1}", unique = true)
 })

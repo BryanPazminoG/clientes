@@ -37,7 +37,7 @@ dependencies {
 
 
 	implementation project(':clientes')
-	// implementation project(':empresas')
+	implementation project(':empresas')
 }
 
 
