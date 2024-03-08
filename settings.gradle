@@ -1,4 +1,4 @@
-rootProject.name = 'ocliente'
-include 'clientes'
-include 'empresas'
+include 'microservicios:clientes'
+include 'microservicios:empresas'
+include 'oclientes'
 
