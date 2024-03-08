@@ -31,19 +31,20 @@ public class ClienteService {
         return dtos;
     }
 
-    public Cliente obtenerPorId(String id) {
-        log.info("Se va a obtener el cliente con ID: {}", id);
-        Cliente cliente = this.clienteRepository.findByIdCliente(id);
-        if (cliente != null) {
-            if ("ACT".equals(cliente.getEstado())) {
-                log.debug("Cliente obtenido: {}", cliente);
-                return cliente;
-            } 
-             else {
-                 throw new RuntimeException("Cliente con ID: " + id + " no se encuentra activo");
+    public Cliente obtenerPorIdentificacion(String tipoIdentificacion, String numeroIdentificacion) {
+        log.info("Se va a obtener cliente por TipoIdentificacion: {} y NumeroIdentificacion: {}", tipoIdentificacion,numeroIdentificacion);
+        List<Cliente> clientes = this.clienteRepository.findByTipoIdentificacionAndNumeroIdentificacion(tipoIdentificacion, numeroIdentificacion);
+        if (clientes != null && !clientes.isEmpty()) {
+            if ("ACT".equals(clientes.get(0).getEstado())) {
+                log.debug("Cliente obtenido: {}", clientes.get(0));
+                return clientes.get(0);
+            } else {
+                throw new RuntimeException("Cliente con TipoIdentificacion: " + tipoIdentificacion
+                        + " y NumeroIdentificacion: " + numeroIdentificacion + " no se encuentra activo");
             }
         } else {
-            throw new RuntimeException("No existe el cliente con el ID: " + id);
+            throw new RuntimeException("No existe el cliente con TipoIdentificacion: " + tipoIdentificacion
+                    + " y NumeroIdentificacion: " + numeroIdentificacion);
         }
     }
     

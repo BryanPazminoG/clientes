@@ -30,13 +30,13 @@ public class ClienteController {
     }
 
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Cliente> buscarPorId(@PathVariable(name = "id") String id) {
-        //log.info("Obteniendo cliente con ID: {}", id);
+    @GetMapping("/{tipoId}/{id}")
+    public ResponseEntity<Cliente> buscarPorIdentificacion(@PathVariable(name = "tipoId") String tipoId, @PathVariable(name = "id") String id) {
+        log.info("Obteniendo cliente con TipoIdentificacion: {} y NumeroIdentificacion: {}", tipoId, id);
         try {
-            return ResponseEntity.ok(this.clienteService.obtenerPorId(id));
+            return ResponseEntity.ok(this.clienteService.obtenerPorIdentificacion(tipoId, id));
         } catch(RuntimeException rte) {
-            //log.error("Error al obtener cliente por ID", rte);
+            log.error("Error al obtener cliente por Identificacion", rte);
             return ResponseEntity.notFound().build();
         }
     }

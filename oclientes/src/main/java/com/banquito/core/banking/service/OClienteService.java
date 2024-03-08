@@ -1,21 +1,25 @@
 package com.banquito.core.banking.service;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.banquito.core.banking.external.client.ClienteService;
+import com.banquito.core.banking.service.ExternalServices.ClientesRestService;
 
 @Service
 public class OClienteService {
 
-    private final ClienteService clienteService;
+    private ClientesRestService clientesRestService;
 
-    public OClienteService(ClienteService clienteService) {
-        this.clienteService = clienteService;
+    public OClienteService(ClientesRestService clientesRestService) {
+        this.clientesRestService = clientesRestService;
     }
 
-    public String prueba(){
-        return this.clienteService.pruebas();
+    public ResponseEntity<String> listarClientes(){
+        return this.clientesRestService.obtenerClientesNaturales();
     }
 
-
+    public ResponseEntity<String> obtenerPorTipoIndentificacionINumero(String tipo, String numero){
+        return this.clientesRestService.buscarPorIdentificacion(tipo, numero);
+    }
+    
 }
