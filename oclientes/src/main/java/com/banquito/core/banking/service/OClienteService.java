@@ -8,18 +8,18 @@ import com.banquito.core.banking.service.ExternalServices.ClientesRestService;
 @Service
 public class OClienteService {
 
-    private ClientesRestService clientesRestService;
+    private OClienteService oClientesService;
 
     public OClienteService(ClientesRestService clientesRestService) {
-        this.clientesRestService = clientesRestService;
+        this.oClientesService = oClientesService;
     }
 
     public ResponseEntity<String> listarClientes(){
-        return this.clientesRestService.obtenerClientesNaturales();
+        return this.oClientesService.obtenerClientesNaturales();
     }
 
     public ResponseEntity<String> obtenerPorTipoIndentificacionINumero(String tipo, String numero){
-        return this.clientesRestService.buscarPorIdentificacion(tipo, numero);
+        return this.oClientesService.buscarPorIdentificacion(tipo, numero);
     }
     
 }

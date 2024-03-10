@@ -2,19 +2,19 @@ package com.banquito.core.banking.service.ExternalServices;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
-@RequiredArgsConstructor
 public class ClientesRestService {
 
-    private final RestTemplate restTemplate;
+    private final RestTemplate restTemplate; 
+
+    public ClientesRestService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public ResponseEntity<String> obtenerClientesNaturales(){
         String url = "http://localhost:8081/api/v1/clientes";
@@ -27,12 +27,9 @@ public class ClientesRestService {
         return response;
     }
 
-
     @GetMapping("/{tipoId}/{id}")
     public ResponseEntity<String> buscarPorIdentificacion(@PathVariable(name = "tipoId") String tipoId, @PathVariable(name = "id") String id){
         String url = "http://localhost:8081/api/v1/clientes/"+ tipoId + "/"+ id;
-
-        log.info(url);
 
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
@@ -42,5 +39,34 @@ public class ClientesRestService {
         return response;
 
     }
-    
+
+    public ResponseEntity<String> listarClientes() {
+        String url = "http://localhost:8081/api/v1/clientes/";
+        return restTemplate.getForEntity(url, String.class);
+    }
+
+    public ResponseEntity<String> obtenerPorTipoIdentificacionYNumero(String tipo, String numero) {
+        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/clientes/")
+                .pathSegment(tipo, numero)
+                .build()
+                .toString();
+        return restTemplate.getForEntity(url, String.class);
+    }
+
+    public ResponseEntity<String> obtenerPorId(String id) {
+        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/clientes/")
+                .path("/{id}")
+                .buildAndExpand(id)
+                .toUriString();
+        return restTemplate.getForEntity(url, String.class);
+    }
+
+    public ResponseEntity<String> desactivar(String id) {
+        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/clientes/")
+                .path("/desactivar/{id}")
+                .buildAndExpand(id)
+                .toUriString();
+        restTemplate.put(url, null);
+        return ResponseEntity.noContent().build();
+    }
 }
