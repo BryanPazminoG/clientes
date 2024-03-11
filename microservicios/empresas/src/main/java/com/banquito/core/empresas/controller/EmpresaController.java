@@ -29,12 +29,6 @@ public class EmpresaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Empresa>> listarClientes() {
-        log.info("Obteniendo listado de clientes");
-        return ResponseEntity.ok(this.empresaService.listarTodo());
-    }
-
-    @GetMapping
     public ResponseEntity<List<Empresa>> listarEmpresas() {
         log.info("Obteniendo listado de clientes juridicos");
         return ResponseEntity.ok(this.empresaService.listarTodo());

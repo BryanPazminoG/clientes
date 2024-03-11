@@ -1,12 +1,18 @@
 package com.banquito.core.empresas.service;
 
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.banquito.core.empresas.dao.EmpresaRepository;
 import com.banquito.core.empresas.domain.Empresa;
 import com.banquito.core.empresas.domain.Miembro;
+import com.banquito.core.empresas.service.ExternalServices.ClienteNaturalRestService;
+
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.List;
 import java.util.Date;
@@ -17,9 +23,11 @@ import java.util.ArrayList;
 public class EmpresaService {
 
     private final EmpresaRepository empresaRepository;
+    private final ClienteNaturalRestService clienteNaturalRestService;
 
-    public EmpresaService(EmpresaRepository empresaRepository) {
+    public EmpresaService(EmpresaRepository empresaRepository, ClienteNaturalRestService clienteNaturalRestService) {
         this.empresaRepository = empresaRepository;
+        this.clienteNaturalRestService = clienteNaturalRestService;
     }
 
     public List<Empresa> listarTodo() {
@@ -55,9 +63,9 @@ public class EmpresaService {
                 "RUC",
                 numeroIdentificacion);
         if (empresa != null && !empresa.isEmpty()) {
-            if ("ACT".equals(empresa.getFirst().getEstado())) {
-                log.debug("Cliente juridico obtenido: {}", empresa.getFirst());
-                return empresa.getFirst();
+            if ("ACT".equals(empresa.get(0).getEstado())) {
+                log.debug("Cliente juridico obtenido: {}", empresa.get(0));
+                return empresa.get(0);
             } else {
                 throw new RuntimeException("Cliente juridico con TipoIdentificacion: RUC y NumeroIdentificacion: "
                         + numeroIdentificacion + " no se encuentra activo");
@@ -75,22 +83,19 @@ public class EmpresaService {
             empresa.setTipoIdentificacion("RUC");
             empresa.setEstado("ACT");
             empresa.getDireccion().setEstado("ACT");
-            empresa.setFechaConstitucion(new Date());
+            empresa.setFechaCreacion(new Date());
             empresa.setMiembros(new ArrayList<>());
             for (Miembro miembro : empresa.getMiembros()) {
-                if (this.empresaRepository.findByIdCliente(miembro.getIdCliente()) != null) {
-                    miembro.setIdCliente(miembro.getIdCliente());
-                    miembro.setTipoRelacion(miembro.getTipoRelacion());
-                    miembro.setFechaInicio(miembro.getFechaInicio());
-                    miembro.setFechaFin(miembro.getFechaFin());
-                    miembro.setEstado("ACT");
-                    miembro.setFechaUltimoCambio(miembro.getFechaUltimoCambio());
-                    empresa.getMiembros().add(miembro);
-                } else {
-                    throw new RuntimeException("Miembro con ID: " + miembro.getIdCliente() + " no existe");
-                }
+                miembro.setIdCliente(miembro.getIdCliente());
+                miembro.setTipoRelacion(miembro.getTipoRelacion());
+                miembro.setFechaInicio(miembro.getFechaInicio());
+                miembro.setFechaFin(miembro.getFechaFin());
+                miembro.setEstado("ACT");
+                miembro.setFechaUltimoCambio(miembro.getFechaUltimoCambio());
+                empresa.getMiembros().add(miembro);
             }
-            //empresa.setIdCliente(new DigestUtils("MD2").digestAsHex(empresa.toString()));
+
+            empresa.setIdCliente(new DigestUtils("MD2").digestAsHex(empresa.toString()));
             log.debug("ID Cliente juridico generado: {}", empresa.getIdCliente());
             empresa.setFechaCreacion(new Date());
             this.empresaRepository.save(empresa);
@@ -99,6 +104,8 @@ public class EmpresaService {
             throw new RuntimeException("Error al crear el cliente juridico", e);
         }
     }
+    
+    
 
     @Transactional
     public void actualizar(Empresa empresa) {
@@ -132,38 +139,46 @@ public class EmpresaService {
         }
     }
 
-    @Transactional
     public void quitarMiembroEmpresa(String idEmpresa, String idMiembro) {
         try {
             Empresa empresa = this.empresaRepository.findByIdCliente(idEmpresa);
-            for (Miembro miembro : empresa.getMiembros()) {
-                if (idMiembro.equals(miembro.getIdCliente())) {
-                    miembro.setEstado("INA");
-                    log.info("Se desactivo miembro: {} de cliente juridico: {}", idMiembro, idEmpresa);
-                    break;
+            if (empresa != null){
+                for (Miembro miembro : empresa.getMiembros()) {
+                    if (idMiembro.equals(miembro.getIdCliente())) {
+                        miembro.setEstado("INA");
+                        log.info("Se desactivo miembro: {} de cliente juridico: {}", idMiembro, idEmpresa);
+                        break;
+                    }
                 }
+                log.debug("Desactivando miembro: {} de cliente juridico: {}", idMiembro, idEmpresa);
+                this.empresaRepository.save(empresa);
+            } else {
+                log.error("No exist el cliente juridico", idMiembro);
             }
-            log.debug("Desactivando miembro: {} de cliente juridico: {}", idMiembro, idEmpresa);
-            this.empresaRepository.save(empresa);
+
         } catch (Exception e) {
             throw new RuntimeException("Error al desactivar miembro: " + idMiembro, e);
         }
     }
 
-    @Transactional
     public void desactivar(String idCliente) {
         try {
             Empresa empresa = this.empresaRepository.findByIdCliente(idCliente);
-            for (Miembro miembro : empresa.getMiembros()) {
-                if ("ACT".equals(miembro.getEstado())) {
-                    log.error("Cliente juridico: {}, tiene miembros activos", idCliente);
-                    throw new RuntimeException("Miembro con ID: " + miembro.getIdCliente() + " se encuentra activo");
+            if (empresa != null){
+                for (Miembro miembro : empresa.getMiembros()) {
+                    if ("ACT".equals(miembro.getEstado())) {
+                        log.error("Cliente juridico: {}, tiene miembros activos", idCliente);
+                        throw new RuntimeException("Miembro con ID: " + miembro.getIdCliente() + " se encuentra activo");
+                    }
                 }
+                log.debug("Desactivando cliente juridico: {}, estado: INA", idCliente);
+                empresa.setEstado("INA");
+                this.empresaRepository.save(empresa);
+                log.info("Se desactivo el cliente juridico: {}", idCliente);
+            } else {
+                log.error("No exist el cliente juridico", idCliente);
             }
-            log.debug("Desactivando cliente juridico: {}, estado: INA", idCliente);
-            empresa.setEstado("INA");
-            this.empresaRepository.save(empresa);
-            log.info("Se desactivo el cliente juridico: {}", idCliente);
+
         } catch (Exception e) {
             throw new RuntimeException("Error al desactivar cliente juridico: " + idCliente, e);
         }
