@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface EmpresaRepository extends MongoRepository<Empresa, String> {
 
-    Empresa findByIdCliente(String idCliente);
+    Empresa findByIdEmpresa(String idEmpresa);
 
     List<Empresa> findByTipoIdentificacionAndNumeroIdentificacion(String tipoIdentificacion, String numeroIdentificacion);
 }

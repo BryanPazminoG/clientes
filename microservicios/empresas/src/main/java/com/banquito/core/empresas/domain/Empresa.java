@@ -26,8 +26,8 @@ public class Empresa {
     private String id;
 
     @Indexed(unique = true)
-    @Field("id_cliente")
-    private String idCliente;
+    @Field("id_empresa")
+    private String idEmpresa;
 
     @Field("tipo_identificacion")
     private String tipoIdentificacion;

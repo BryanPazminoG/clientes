@@ -2,8 +2,7 @@ package com.banquito.core.empresas.service;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,7 +42,7 @@ public class EmpresaService {
 
     public Empresa obtenerPorId(String id) {
         log.info("Se va a obtener el cliente juridico con ID: {}", id);
-        Empresa empresa = this.empresaRepository.findByIdCliente(id);
+        Empresa empresa = this.empresaRepository.findByIdEmpresa(id);
         if (empresa != null) {
             if ("ACT".equals(empresa.getEstado())) {
                 log.debug("Cliente juridico obtenido: {}", empresa);
@@ -84,19 +83,42 @@ public class EmpresaService {
             empresa.setEstado("ACT");
             empresa.getDireccion().setEstado("ACT");
             empresa.setFechaCreacion(new Date());
-            empresa.setMiembros(new ArrayList<>());
-            for (Miembro miembro : empresa.getMiembros()) {
-                miembro.setIdCliente(miembro.getIdCliente());
-                miembro.setTipoRelacion(miembro.getTipoRelacion());
-                miembro.setFechaInicio(miembro.getFechaInicio());
-                miembro.setFechaFin(miembro.getFechaFin());
-                miembro.setEstado("ACT");
-                miembro.setFechaUltimoCambio(miembro.getFechaUltimoCambio());
-                empresa.getMiembros().add(miembro);
+    
+            // Crear una lista nueva para los miembros de la empresa
+            ArrayList<Miembro> nuevaListaMiembros = new ArrayList<>();
+    
+            // Iterar sobre los miembros del JSON y agregarlos a la nueva lista
+            for (Miembro miembroJSON : empresa.getMiembros()) {
+                Miembro nuevoMiembro = new Miembro();
+                nuevoMiembro.setIdCliente(miembroJSON.getIdCliente());
+                nuevoMiembro.setTipoRelacion(miembroJSON.getTipoRelacion());
+                nuevoMiembro.setFechaInicio(miembroJSON.getFechaInicio());
+                nuevoMiembro.setFechaFin(miembroJSON.getFechaFin());
+                nuevoMiembro.setEstado("ACT");
+                nuevoMiembro.setFechaUltimoCambio(new Date());
+                nuevaListaMiembros.add(nuevoMiembro);
             }
+    
+            // Actualizar la lista de miembros de la empresa con la nueva lista
+            empresa.setMiembros(nuevaListaMiembros);
 
-            empresa.setIdCliente(new DigestUtils("MD2").digestAsHex(empresa.toString()));
-            log.debug("ID Cliente juridico generado: {}", empresa.getIdCliente());
+            //empresa.setMiembros(new ArrayList<>());
+
+            
+
+
+            // for (Miembro miembro : empresa.getMiembros()) {
+            //     miembro.setIdCliente(miembro.getIdCliente());
+            //     miembro.setTipoRelacion(miembro.getTipoRelacion());
+            //     miembro.setFechaInicio(miembro.getFechaInicio());
+            //     miembro.setFechaFin(miembro.getFechaFin());
+            //     miembro.setEstado("ACT");
+            //     miembro.setFechaUltimoCambio(miembro.getFechaUltimoCambio());
+            //     empresa.getMiembros().add(miembro);
+            // }
+
+            empresa.setIdEmpresa(new DigestUtils("MD2").digestAsHex(empresa.toString()));
+            log.debug("ID Cliente juridico generado: {}", empresa.getIdEmpresa());
             empresa.setFechaCreacion(new Date());
             this.empresaRepository.save(empresa);
             log.info("Se creo el cliente juridico : {}", empresa);
@@ -110,12 +132,12 @@ public class EmpresaService {
     @Transactional
     public void actualizar(Empresa empresa) {
         try {
-            Empresa empresaAux = this.empresaRepository.findByIdCliente(empresa.getIdCliente());
+            Empresa empresaAux = this.empresaRepository.findByIdEmpresa(empresa.getIdEmpresa());
             if ("ACT".equals(empresaAux.getEstado())) {
                 Empresa empresaTmp = empresa;
                 empresaTmp.setMiembros(new ArrayList<>());
                 for (Miembro miembro : empresa.getMiembros()) {                
-                    if (this.empresaRepository.findByIdCliente(miembro.getIdCliente()) != null) {
+                    if (clienteNaturalRestService.obtenerPorId(miembro.getIdCliente()) != null) {
                         miembro.setIdCliente(miembro.getIdCliente());
                         miembro.setTipoRelacion(miembro.getTipoRelacion());
                         miembro.setFechaInicio(miembro.getFechaInicio());
@@ -141,7 +163,7 @@ public class EmpresaService {
 
     public void quitarMiembroEmpresa(String idEmpresa, String idMiembro) {
         try {
-            Empresa empresa = this.empresaRepository.findByIdCliente(idEmpresa);
+            Empresa empresa = this.empresaRepository.findByIdEmpresa(idEmpresa);
             if (empresa != null){
                 for (Miembro miembro : empresa.getMiembros()) {
                     if (idMiembro.equals(miembro.getIdCliente())) {
@@ -163,7 +185,7 @@ public class EmpresaService {
 
     public void desactivar(String idCliente) {
         try {
-            Empresa empresa = this.empresaRepository.findByIdCliente(idCliente);
+            Empresa empresa = this.empresaRepository.findByIdEmpresa(idCliente);
             if (empresa != null){
                 for (Miembro miembro : empresa.getMiembros()) {
                     if ("ACT".equals(miembro.getEstado())) {
