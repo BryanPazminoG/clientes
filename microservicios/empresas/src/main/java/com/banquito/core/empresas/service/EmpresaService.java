@@ -83,40 +83,22 @@ public class EmpresaService {
             empresa.setEstado("ACT");
             empresa.getDireccion().setEstado("ACT");
             empresa.setFechaCreacion(new Date());
-    
-            // Crear una lista nueva para los miembros de la empresa
             ArrayList<Miembro> nuevaListaMiembros = new ArrayList<>();
-    
-            // Iterar sobre los miembros del JSON y agregarlos a la nueva lista
             for (Miembro miembroJSON : empresa.getMiembros()) {
                 Miembro nuevoMiembro = new Miembro();
-                nuevoMiembro.setIdCliente(miembroJSON.getIdCliente());
-                nuevoMiembro.setTipoRelacion(miembroJSON.getTipoRelacion());
-                nuevoMiembro.setFechaInicio(miembroJSON.getFechaInicio());
-                nuevoMiembro.setFechaFin(miembroJSON.getFechaFin());
-                nuevoMiembro.setEstado("ACT");
-                nuevoMiembro.setFechaUltimoCambio(new Date());
-                nuevaListaMiembros.add(nuevoMiembro);
+                if (clienteNaturalRestService.obtenerPorId(miembroJSON.getIdCliente()) != null ){
+                    nuevoMiembro.setIdCliente(miembroJSON.getIdCliente());
+                    nuevoMiembro.setTipoRelacion(miembroJSON.getTipoRelacion());
+                    nuevoMiembro.setFechaInicio(miembroJSON.getFechaInicio());
+                    nuevoMiembro.setFechaFin(miembroJSON.getFechaFin());
+                    nuevoMiembro.setEstado("ACT");
+                    nuevoMiembro.setFechaUltimoCambio(new Date());
+                    nuevaListaMiembros.add(nuevoMiembro);
+                } else {
+                     throw new RuntimeException("Cliente natural no encontrado.");
+                }
             }
-    
-            // Actualizar la lista de miembros de la empresa con la nueva lista
             empresa.setMiembros(nuevaListaMiembros);
-
-            //empresa.setMiembros(new ArrayList<>());
-
-            
-
-
-            // for (Miembro miembro : empresa.getMiembros()) {
-            //     miembro.setIdCliente(miembro.getIdCliente());
-            //     miembro.setTipoRelacion(miembro.getTipoRelacion());
-            //     miembro.setFechaInicio(miembro.getFechaInicio());
-            //     miembro.setFechaFin(miembro.getFechaFin());
-            //     miembro.setEstado("ACT");
-            //     miembro.setFechaUltimoCambio(miembro.getFechaUltimoCambio());
-            //     empresa.getMiembros().add(miembro);
-            // }
-
             empresa.setIdEmpresa(new DigestUtils("MD2").digestAsHex(empresa.toString()));
             log.debug("ID Cliente juridico generado: {}", empresa.getIdEmpresa());
             empresa.setFechaCreacion(new Date());

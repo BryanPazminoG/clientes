@@ -76,21 +76,35 @@ public class ClienteNaturalService {
     }
 
     @Transactional
-    public void actualizar(ClienteNatural cliente) {
+    public void actualizar(ClienteNatural clienteActualizado) {
         try {
-            ClienteNatural clienteAux = this.clienteNaturalRepository.findByIdCliente(cliente.getIdCliente());
-            if ("ACT".equals(clienteAux.getEstado())) {
-                cliente.setEstado("ACT");
-                this.clienteNaturalRepository.save(cliente);
-                log.info("Se actualizaron los datos del cliente: {}", cliente);
+            // Buscar el cliente existente por su ID
+            ClienteNatural clienteExistente = this.clienteNaturalRepository.findByIdCliente(clienteActualizado.getIdCliente());
+            
+            // Verificar si se encontró el cliente existente
+            if (clienteExistente != null) {
+
+                clienteExistente.setApellidos(clienteActualizado.getApellidos());
+                clienteExistente.setNombres(clienteActualizado.getNombres());
+                clienteExistente.setFechaNacimiento(clienteActualizado.getFechaNacimiento());
+                clienteExistente.setCorreoElectronico(clienteActualizado.getCorreoElectronico());
+                clienteExistente.setTelefonos(clienteActualizado.getTelefonos()); // Actualiza la lista de teléfonos
+                clienteExistente.setDirecciones(clienteActualizado.getDirecciones()); // Actualiza la lista de direcciones
+    
+                // Guardar el cliente actualizado en la base de datos
+                this.clienteNaturalRepository.save(clienteExistente);
+                
+                log.info("Se actualizaron los datos del cliente: {}", clienteExistente);
             } else {
-                log.error("No se puede actualizar, Cliente: {} se encuentra INACTIVO", clienteAux);
+                log.error("No se encontró el cliente con idCliente: {}", clienteActualizado.getIdCliente());
+                // Aquí puedes manejar el caso en que el cliente no se encuentre en la base de datos
             }
         } catch (Exception e) {
             throw new RuntimeException("Error al actualizar el cliente.", e);
         }
     }
-
+    
+    
     @Transactional
     public void desactivar(String idCliente) {
         log.info("Se va a desactivar el cliente: {}", idCliente);
