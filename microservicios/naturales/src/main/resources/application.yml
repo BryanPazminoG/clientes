@@ -7,7 +7,7 @@ logging:
 
 spring:
   application:
-    name: Clientes-Application
+    name: Naturales-Application
   data:
     mongodb:
       uri: mongodb+srv://carodriguez19:testingtesting123@cluster0.xpofgue.mongodb.net/

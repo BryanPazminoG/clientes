@@ -1,4 +1,4 @@
-rootProject.name = 'clientes'
 include 'microservicios:empresas'
 include 'microservicios:naturales'
+include 'cliente'
 
