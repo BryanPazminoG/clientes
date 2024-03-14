@@ -2,14 +2,13 @@ package com.banquito.core.banking.service.ExternalServices;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class ClienteNaturalRestService {
-
     private final RestTemplate restTemplate; 
 
     public ClienteNaturalRestService(RestTemplate restTemplate) {

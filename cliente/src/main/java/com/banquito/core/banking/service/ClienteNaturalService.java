@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 
 import com.banquito.core.banking.service.ExternalServices.ClienteNaturalRestService;
 
+
 @Service
 public class ClienteNaturalService {
-
-    private ClienteNaturalRestService clientesRestService;
+        private ClienteNaturalRestService clientesRestService;
 
     public ClienteNaturalService(ClienteNaturalRestService clientesRestService) {
         this.clientesRestService = clientesRestService;
@@ -18,8 +18,12 @@ public class ClienteNaturalService {
         return this.clientesRestService.obtenerClientesNaturales();
     }
 
-    public ResponseEntity<String> obtenerPorTipoIndentificacionINumero(String tipo, String numero){
+    public ResponseEntity<String> obtenerPorTipoIndentificacion(String tipo, String numero){
         return this.clientesRestService.buscarPorIdentificacion(tipo, numero);
+    }
+
+    public ResponseEntity<String> obtenerPorIdCliente(String idCliente){
+        return this.clientesRestService.obtenerPorId(idCliente);
     }
     
 }
