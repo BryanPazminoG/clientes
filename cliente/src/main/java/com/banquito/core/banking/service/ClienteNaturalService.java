@@ -25,5 +25,13 @@ public class ClienteNaturalService {
     public ResponseEntity<String> obtenerPorIdCliente(String idCliente){
         return this.clientesRestService.obtenerPorId(idCliente);
     }
+
+    public ResponseEntity<String> crearClienteNatural(String json){
+        return this.clientesRestService.crearClienteNatural(json);
+    }
+
+    public ResponseEntity<String> actualizarClienteNatural(String json){
+        return this.clientesRestService.actualizarClienteNatural(json);
+    }
     
 }
