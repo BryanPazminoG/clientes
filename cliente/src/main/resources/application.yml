@@ -8,9 +8,9 @@ logging:
 spring:
   application:
     name: Clientes-Application
+
 management:
   endpoints:
     web:
       exposure: 
         include: health, prometheus
-  metrics: 
