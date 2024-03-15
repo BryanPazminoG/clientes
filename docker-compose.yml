@@ -1,38 +1,16 @@
 version: '3.8'
 
 services:
-  naturales:
+  combined-service:
     build:
-      context: ./microservicios/naturales
-      dockerfile: Dockerfile
-      args:
-        JAR_FILE: build/libs/naturales.jar
+      context: .
+      dockerfile: Dockerfile.combine
     networks:
       - my-network
     ports:
-      - "8081:8081"
-
-  empresas:
-    build:
-      context: ./microservicios/empresas
-      dockerfile: Dockerfile
-      args:
-        JAR_FILE: build/libs/empresas.jar
-    networks:
-      - my-network
-    ports:
-      - "8082:8082"
-
-  cliente:
-    build:
-      context: ./cliente
-      dockerfile: Dockerfile
-      args:
-        JAR_FILE: build/libs/cliente.jar
-    networks:
-      - my-network
-    ports:
-      - "8080:8080"
+      - "8081:8081"  # Puerto del servicio naturales
+      - "8082:8082"  # Puerto del servicio empresas
+      - "8080:8080"  # Puerto del servicio cliente
 
 networks:
   my-network:

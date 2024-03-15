@@ -38,6 +38,12 @@ public class ClienteController {
         return this.oempresaService.obtenerPorIdEmpresa(idCliente);
     }
 
+    @GetMapping("/empresas/{tipoIdentificacion}/{numero}")
+    public ResponseEntity<String> obtenerPorTipoIdentificacion(@PathVariable(name = "tipoIdentificacion") String tipo, @PathVariable(name = "numero") String numero) {
+        ResponseEntity<String> respuestaServicio = oempresaService.obtenerPorTipoIndentificacion(numero);
+        return respuestaServicio;
+    }
+
     @PostMapping("/empresas")
     public ResponseEntity<String> crearEmpresas(@RequestBody String empresasJson) {
         return this.oempresaService.crearEmpresas(empresasJson);
@@ -57,6 +63,12 @@ public class ClienteController {
     @GetMapping("/naturales/{idCliente}")
     public ResponseEntity<String> obtenerPorIdCliente(@PathVariable(name = "idCliente") String idCliente){
         return this.oclienteNaturalService.obtenerPorIdCliente(idCliente);
+    }
+
+    @GetMapping("/naturales/{tipoIdentificacion}/{idCliente}")
+    public ResponseEntity<String> obtenerPorIdCliente(@PathVariable(name = "tipoIdentificacion") String tipo, @PathVariable(name = "idCliente") String idCliente) {
+        ResponseEntity<String> respuestaServicio = oclienteNaturalService.obtenerPorTipoIndentificacion(tipo, idCliente);
+        return respuestaServicio;
     }
 
     @PostMapping("/naturales")

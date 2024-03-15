@@ -22,12 +22,12 @@ public class EmpresasRestService {
     }
     
     public ResponseEntity<String> listarEmpresas() {
-        String url = "http://empresas:8082/api/v1/empresas";
+        String url = "http://localhost:8082/api/v1/empresas";
         return restTemplate.getForEntity(url, String.class);
     }
 
     public ResponseEntity<String> obtenerPorId(String id) {
-        String url = UriComponentsBuilder.fromHttpUrl("http://empresas:8082/api/v1/empresas")
+        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8082/api/v1/empresas")
                 .path("/{id}")
                 .buildAndExpand(id)
                 .toUriString();
@@ -35,7 +35,7 @@ public class EmpresasRestService {
     }
 
     public ResponseEntity<String> obtenerPorIdentificacion(String numeroIdentificacion) {
-        String url = UriComponentsBuilder.fromHttpUrl("http://empresas:8082/api/v1/empresas")
+        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8082/api/v1/empresas")
                 .path("/RUC/{numeroIdentificacion}")
                 .buildAndExpand(numeroIdentificacion)
                 .toUriString();
@@ -43,7 +43,7 @@ public class EmpresasRestService {
     }
 
     public ResponseEntity<String> desactivar(String idCliente) {
-        String url = UriComponentsBuilder.fromHttpUrl("http://empresas:8082/api/v1/empresas")
+        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8082/api/v1/empresas")
                 .path("/desactivar/{idCliente}")
                 .buildAndExpand(idCliente)
                 .toUriString();
@@ -52,7 +52,7 @@ public class EmpresasRestService {
     }
 
     public ResponseEntity<String> crearEmpresas(String empresasJson) {
-        String url = "http://empresas:8082/api/v1/empresas";
+        String url = "http://localhost:8082/api/v1/empresas";
         HttpEntity<String> requestEntity = new HttpEntity<>(empresasJson, headers);
         return restTemplate.postForEntity(url, requestEntity, String.class);
     }
@@ -60,7 +60,7 @@ public class EmpresasRestService {
 
     public ResponseEntity<String> actualizarEmpresas(String empresaJson) {
         try {
-            String url = "http://empresas:8082/api/v1/empresas";
+            String url = "http://localhost:8082/api/v1/empresas";
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<String> requestEntity = new HttpEntity<>(empresaJson, headers);

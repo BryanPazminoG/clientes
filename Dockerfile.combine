@@ -1,0 +1,10 @@
+# Dockerfile.combine
+
+# Etapa de construcción para copiar los archivos JAR de cada microservicio al contenedor
+FROM openjdk:17-jdk
+COPY ./microservicios/naturales/build/libs/naturales.jar /app/naturales.jar
+COPY ./microservicios/empresas/build/libs/empresas.jar /app/empresas.jar
+COPY ./cliente/build/libs/cliente.jar /app/cliente.jar
+
+# Configurar el comando de ejecución para el contenedor
+CMD java -jar /app/naturales.jar & java -jar /app/empresas.jar & java -jar /app/cliente.jar
