@@ -1,4 +1,4 @@
-server.port: 8083
+server.port: 8080
 server.error.include-message: always
 
 logging:
@@ -8,8 +8,3 @@ logging:
 spring:
   application:
     name: Clientes-Application
-  data:
-    mongodb:
-      uri: mongodb+srv://carodriguez19:testingtesting123@cluster0.xpofgue.mongodb.net/
-      database: Clientes
-      auto-index-creation: true

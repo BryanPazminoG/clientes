@@ -52,7 +52,7 @@ public class ClienteNaturalService {
 
     public ClienteNatural obtenerPorId(String id) {
         log.info("Se va a obtener el cliente con ID: {}", id);
-        ClienteNatural cliente = this.clienteNaturalRepository.findByIdCliente(id);
+        ClienteNatural cliente = this.clienteNaturalRepository.findByCodCliente(id);
         if ("ACT".equals(cliente.getEstado())) {
             log.debug("Cliente obtenido: {}", cliente);
             return cliente;
@@ -65,8 +65,8 @@ public class ClienteNaturalService {
     public void crear(ClienteNatural cliente) {
         try {
             cliente.setEstado("ACT");
-            cliente.setIdCliente(new DigestUtils("MD2").digestAsHex(cliente.getTipoIdentificacion()+cliente.getNumeroIdentificacion()));
-            log.debug("ID Cliente generado: {}", cliente.getIdCliente());
+            cliente.setCodCliente(new DigestUtils("MD2").digestAsHex(cliente.getTipoIdentificacion()+cliente.getNumeroIdentificacion()));
+            log.debug("ID Cliente generado: {}", cliente.getCodCliente());
             cliente.setFechaCreacion(new Date());
             this.clienteNaturalRepository.save(cliente);
             log.info("Se creo el cliente: {}", cliente);
@@ -79,7 +79,7 @@ public class ClienteNaturalService {
     public void actualizar(ClienteNatural clienteActualizado) {
         try {
             // Buscar el cliente existente por su ID
-            ClienteNatural clienteExistente = this.clienteNaturalRepository.findByIdCliente(clienteActualizado.getIdCliente());
+            ClienteNatural clienteExistente = this.clienteNaturalRepository.findByCodCliente(clienteActualizado.getCodCliente());
             
             // Verificar si se encontró el cliente existente
             if (clienteExistente != null) {
@@ -96,7 +96,7 @@ public class ClienteNaturalService {
                 
                 log.info("Se actualizaron los datos del cliente: {}", clienteExistente);
             } else {
-                log.error("No se encontró el cliente con idCliente: {}", clienteActualizado.getIdCliente());
+                log.error("No se encontró el cliente con idCliente: {}", clienteActualizado.getCodCliente());
                 // Aquí puedes manejar el caso en que el cliente no se encuentre en la base de datos
             }
         } catch (Exception e) {
@@ -109,7 +109,7 @@ public class ClienteNaturalService {
     public void desactivar(String idCliente) {
         log.info("Se va a desactivar el cliente: {}", idCliente);
         try {
-            ClienteNatural cliente = this.clienteNaturalRepository.findByIdCliente(idCliente);
+            ClienteNatural cliente = this.clienteNaturalRepository.findByCodCliente(idCliente);
             log.debug("Desactivando cliente: {}, estado: INA", idCliente);
             cliente.setEstado("INA");
             this.clienteNaturalRepository.save(cliente);

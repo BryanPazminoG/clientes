@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClienteNaturalRepository extends MongoRepository<ClienteNatural, String> {
 
-    ClienteNatural findByIdCliente(String idCliente);
+    ClienteNatural findByCodCliente(String idCliente);
     ClienteNatural findBfindById(String id);
     List<ClienteNatural> findByTipoIdentificacionAndNumeroIdentificacion(String tipoIdentificacion, String numeroIdentificacion);
 

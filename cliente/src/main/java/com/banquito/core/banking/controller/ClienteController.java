@@ -1,6 +1,7 @@
 package com.banquito.core.banking.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import com.banquito.core.banking.service.ClienteNaturalService;
 import com.banquito.core.banking.service.EmpresaService;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:8081", "http://localhost:8082"})
 @RequestMapping("/api/v1/clientes")
 public class ClienteController {
 

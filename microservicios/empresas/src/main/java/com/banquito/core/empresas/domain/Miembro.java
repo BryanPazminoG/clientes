@@ -12,8 +12,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class Miembro {
 
-    @Field("id_cliente")
-    private String idCliente;
+    @Field("cod_cliente")
+    private String codCliente;
 
     @Field("tipo_relacion")
     private String tipoRelacion;

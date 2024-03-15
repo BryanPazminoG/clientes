@@ -42,7 +42,7 @@ public class EmpresaService {
 
     public Empresa obtenerPorId(String id) {
         log.info("Se va a obtener el cliente juridico con ID: {}", id);
-        Empresa empresa = this.empresaRepository.findByIdEmpresa(id);
+        Empresa empresa = this.empresaRepository.findByCodEmpresa(id);
         if (empresa != null) {
             if ("ACT".equals(empresa.getEstado())) {
                 log.debug("Cliente juridico obtenido: {}", empresa);
@@ -86,8 +86,8 @@ public class EmpresaService {
             ArrayList<Miembro> nuevaListaMiembros = new ArrayList<>();
             for (Miembro miembroJSON : empresa.getMiembros()) {
                 Miembro nuevoMiembro = new Miembro();
-                if (clienteNaturalRestService.obtenerPorId(miembroJSON.getIdCliente()) != null ){
-                    nuevoMiembro.setIdCliente(miembroJSON.getIdCliente());
+                if (clienteNaturalRestService.obtenerPorId(miembroJSON.getCodCliente()) != null ){
+                    nuevoMiembro.setCodCliente(miembroJSON.getCodCliente());
                     nuevoMiembro.setTipoRelacion(miembroJSON.getTipoRelacion());
                     nuevoMiembro.setFechaInicio(miembroJSON.getFechaInicio());
                     nuevoMiembro.setFechaFin(miembroJSON.getFechaFin());
@@ -99,8 +99,8 @@ public class EmpresaService {
                 }
             }
             empresa.setMiembros(nuevaListaMiembros);
-            empresa.setIdEmpresa(new DigestUtils("MD2").digestAsHex(empresa.toString()));
-            log.debug("ID Cliente juridico generado: {}", empresa.getIdEmpresa());
+            empresa.setCodEmpresa(new DigestUtils("MD2").digestAsHex(empresa.toString()));
+            log.debug("ID Cliente juridico generado: {}", empresa.getCodEmpresa());
             empresa.setFechaCreacion(new Date());
             this.empresaRepository.save(empresa);
             log.info("Se creo el cliente juridico : {}", empresa);
@@ -112,7 +112,7 @@ public class EmpresaService {
     @Transactional
     public void actualizar(Empresa empresa) {
         try {
-            Empresa empresaAux = this.empresaRepository.findByIdEmpresa(empresa.getIdEmpresa());
+            Empresa empresaAux = this.empresaRepository.findByCodEmpresa(empresa.getCodEmpresa());
 
             if (empresaAux != null && "ACT".equals(empresaAux.getEstado())) {
                 empresaAux.setNombreComercial(empresa.getNombreComercial());
@@ -124,8 +124,8 @@ public class EmpresaService {
                 ArrayList<Miembro> nuevaListaMiembros = new ArrayList<>();
                 for (Miembro miembroJSON : empresa.getMiembros()) {
                     Miembro nuevoMiembro = new Miembro();
-                    if (clienteNaturalRestService.obtenerPorId(miembroJSON.getIdCliente()) != null ){
-                        nuevoMiembro.setIdCliente(miembroJSON.getIdCliente());
+                    if (clienteNaturalRestService.obtenerPorId(miembroJSON.getCodCliente()) != null ){
+                        nuevoMiembro.setCodCliente(miembroJSON.getCodCliente());
                         nuevoMiembro.setTipoRelacion(miembroJSON.getTipoRelacion());
                         nuevoMiembro.setFechaInicio(miembroJSON.getFechaInicio());
                         nuevoMiembro.setFechaFin(miembroJSON.getFechaFin());
@@ -147,10 +147,10 @@ public class EmpresaService {
     
     public void quitarMiembroEmpresa(String idEmpresa, String idMiembro) {
         try {
-            Empresa empresa = this.empresaRepository.findByIdEmpresa(idEmpresa);
+            Empresa empresa = this.empresaRepository.findByCodEmpresa(idEmpresa);
             if (empresa != null){
                 for (Miembro miembro : empresa.getMiembros()) {
-                    if (idMiembro.equals(miembro.getIdCliente())) {
+                    if (idMiembro.equals(miembro.getCodCliente())) {
                         miembro.setEstado("INA");
                         log.info("Se desactivo miembro: {} de cliente juridico: {}", idMiembro, idEmpresa);
                         break;
@@ -169,12 +169,12 @@ public class EmpresaService {
 
     public void desactivar(String idCliente) {
         try {
-            Empresa empresa = this.empresaRepository.findByIdEmpresa(idCliente);
+            Empresa empresa = this.empresaRepository.findByCodEmpresa(idCliente);
             if (empresa != null){
                 for (Miembro miembro : empresa.getMiembros()) {
                     if ("ACT".equals(miembro.getEstado())) {
                         log.error("Cliente juridico: {}, tiene miembros activos", idCliente);
-                        throw new RuntimeException("Miembro con ID: " + miembro.getIdCliente() + " se encuentra activo");
+                        throw new RuntimeException("Miembro con ID: " + miembro.getCodCliente() + " se encuentra activo");
                     }
                 }
                 log.debug("Desactivando cliente juridico: {}, estado: INA", idCliente);

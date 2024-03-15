@@ -28,8 +28,8 @@ public class ClienteNatural {
     private String id;
 
     @Indexed(unique = true)
-    @Field("id_cliente")
-    private String idCliente;
+    @Field("cod_cliente")
+    private String codCliente;
 
     @Field("tipo_identificacion")
     private String tipoIdentificacion;
