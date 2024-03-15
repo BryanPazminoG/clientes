@@ -14,7 +14,7 @@ import com.banquito.core.banking.service.ClienteNaturalService;
 import com.banquito.core.banking.service.EmpresaService;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:8081", "http://localhost:8082"})
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/v1/clientes")
 public class ClienteController {
 

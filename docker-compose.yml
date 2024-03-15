@@ -1,17 +1,39 @@
-version: '3'
+version: '3.8'
+
 services:
-  empresas:
-    build:
-      context: ./microservicios/empresas
-    ports:
-      - "8082:8080"  # Reemplaza el puerto 8080 con el puerto en el que escucha tu aplicación
   naturales:
     build:
       context: ./microservicios/naturales
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: build/libs/naturales.jar
+    networks:
+      - my-network
     ports:
-      - "8081:8080"  # Reemplaza el puerto 8080 con el puerto en el que escucha tu aplicación
+      - "8081:8081"
+
+  empresas:
+    build:
+      context: ./microservicios/empresas
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: build/libs/empresas.jar
+    networks:
+      - my-network
+    ports:
+      - "8082:8082"
+
   cliente:
     build:
       context: ./cliente
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: build/libs/cliente.jar
+    networks:
+      - my-network
     ports:
-      - "8080:8080"  # Reemplaza el puerto 8080 con el puerto en el que escucha tu aplicación
+      - "8080:8080"
+
+networks:
+  my-network:
+    driver: bridge

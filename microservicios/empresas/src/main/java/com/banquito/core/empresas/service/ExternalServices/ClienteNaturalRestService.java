@@ -14,7 +14,7 @@ public class ClienteNaturalRestService {
     }
 
     public ResponseEntity<String> obtenerPorId(String id) {
-        String url = "http://localhost:8081/api/v1/naturales/" + id;
+        String url = "http://naturales:8081/api/v1/naturales/" + id;
     
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
     
