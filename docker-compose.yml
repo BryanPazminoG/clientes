@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  empresas:
+    build:
+      context: ./microservicios/empresas
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: build/libs/empresas.jar
+    ports:
+      - "8082:8082"
+
+  naturales:
+    build:
+      context: ./microservicios/naturales
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: build/libs/naturales.jar
+    ports:
+      - "8081:8081"
+
+  cliente:
+    build:
+      context: ./cliente
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: build/libs/cliente.jar
+    ports:
+      - "8003:8003"

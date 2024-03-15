@@ -1,4 +1,4 @@
-server.port: 8082
+server.port: 8083
 server.error.include-message: always
 
 logging:
@@ -7,7 +7,7 @@ logging:
 
 spring:
   application:
-    name: Empresas-Application
+    name: Clientes-Application
   data:
     mongodb:
       uri: mongodb+srv://carodriguez19:testingtesting123@cluster0.xpofgue.mongodb.net/

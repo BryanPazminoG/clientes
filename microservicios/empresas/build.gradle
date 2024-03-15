@@ -26,7 +26,6 @@ repositories {
 	mavenCentral()
 }
 
-
 ext {
 	set('springCloudAzureVersion', "5.10.0")
 }

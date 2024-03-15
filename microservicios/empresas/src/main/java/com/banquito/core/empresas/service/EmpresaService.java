@@ -109,61 +109,42 @@ public class EmpresaService {
         }
     }
     
-    
-
     @Transactional
     public void actualizar(Empresa empresa) {
         try {
-            // Buscar la empresa existente por su ID
             Empresa empresaAux = this.empresaRepository.findByIdEmpresa(empresa.getIdEmpresa());
-            
-            // Verificar si la empresa existe y está activa
+
             if (empresaAux != null && "ACT".equals(empresaAux.getEstado())) {
-                // Crear una copia de la empresa para realizar los cambios
-                Empresa empresaTmp = new Empresa();
-                empresaTmp.setIdEmpresa(empresa.getIdEmpresa());
-                empresaTmp.setTipoIdentificacion(empresa.getTipoIdentificacion());
-                empresaTmp.setEstado("ACT");
-                empresaTmp.setFechaCreacion(empresa.getFechaCreacion());
-                empresaTmp.setDireccion(empresa.getDireccion()); // No se modifica la dirección
+                empresaAux.setNombreComercial(empresa.getNombreComercial());
+                empresaAux.setRazonSocial(empresa.getRazonSocial());
+                empresaAux.setTipoIdentificacion(empresa.getTipoIdentificacion());
+                empresaAux.setFechaCreacion(empresa.getFechaCreacion());
+                empresaAux.setDireccion(empresa.getDireccion());
                 
-                // Limpiar la lista de miembros antes de actualizar
-                empresaTmp.setMiembros(new ArrayList<>());
-                
-                // Iterar sobre los miembros de la empresa para actualizarlos
-                for (Miembro miembro : empresa.getMiembros()) {
-                    // Verificar si el miembro existe como cliente natural
-                    if (clienteNaturalRestService.obtenerPorId(miembro.getIdCliente()) != null) {
-                        // Actualizar los datos del miembro
-                        Miembro nuevoMiembro = new Miembro();
-                        nuevoMiembro.setIdCliente(miembro.getIdCliente());
-                        nuevoMiembro.setTipoRelacion(miembro.getTipoRelacion());
-                        nuevoMiembro.setFechaInicio(miembro.getFechaInicio());
-                        nuevoMiembro.setFechaFin(miembro.getFechaFin());
+                ArrayList<Miembro> nuevaListaMiembros = new ArrayList<>();
+                for (Miembro miembroJSON : empresa.getMiembros()) {
+                    Miembro nuevoMiembro = new Miembro();
+                    if (clienteNaturalRestService.obtenerPorId(miembroJSON.getIdCliente()) != null ){
+                        nuevoMiembro.setIdCliente(miembroJSON.getIdCliente());
+                        nuevoMiembro.setTipoRelacion(miembroJSON.getTipoRelacion());
+                        nuevoMiembro.setFechaInicio(miembroJSON.getFechaInicio());
+                        nuevoMiembro.setFechaFin(miembroJSON.getFechaFin());
+                        nuevoMiembro.setEstado(miembroJSON.getEstado());
                         nuevoMiembro.setFechaUltimoCambio(new Date());
-                        nuevoMiembro.setEstado("ACT"); // Se establece como activo
-                        empresaTmp.getMiembros().add(nuevoMiembro);
+                        nuevaListaMiembros.add(nuevoMiembro);
                     } else {
-                        log.error("Miembro con ID: " + miembro.getIdCliente() + " no existe");
+                        throw new RuntimeException("Cliente natural no encontrado.");
                     }
                 }
-                
-                // Establecer la fecha de último cambio en la empresa
-                empresaTmp.setFechaUltimoCambio(new Date());
-                
-                // Guardar los cambios en la base de datos
-                this.empresaRepository.save(empresaTmp);
-                
-                log.info("Se actualizaron los datos del cliente jurídico: {}", empresaTmp);
-            } else {
-                log.error("No se puede actualizar, el cliente jurídico: {} no existe o está INACTIVO", empresaAux);
+                empresaAux.setMiembros(nuevaListaMiembros);
+                empresaAux.setFechaUltimoCambio(new Date());
+                this.empresaRepository.save(empresaAux);
             }
         } catch (Exception e) {
             throw new RuntimeException("Error al actualizar el cliente jurídico", e);
         }
     }
     
-
     public void quitarMiembroEmpresa(String idEmpresa, String idMiembro) {
         try {
             Empresa empresa = this.empresaRepository.findByIdEmpresa(idEmpresa);
