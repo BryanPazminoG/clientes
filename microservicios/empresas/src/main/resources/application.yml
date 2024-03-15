@@ -6,10 +6,38 @@ logging:
     root: INFO
 
 spring:
+  config:
+    activate:
+      on-profile: "cloud"
   application:
     name: Empresas-Application
+
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
   data:
     mongodb:
       uri: mongodb+srv://carodriguez19:testingtesting123@cluster0.xpofgue.mongodb.net/
       database: Clientes
+      auto-index-creation: true
+
+---
+spring:
+  cloud:
+    azure:
+      keyvault:
+        secret:
+          property-sources[0]:
+            endpoint: https://azurearquikeyvault.vault.azure.net/
+  config:
+    activate:
+      on-profile: cloud
+  data:
+    mongodb:
+      uri: ${mongodbConnections}
+      database: ${mongoCli}
       auto-index-creation: true
