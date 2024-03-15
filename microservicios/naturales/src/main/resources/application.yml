@@ -8,6 +8,11 @@ logging:
 spring:
   application:
     name: Naturales-Application
+management:
+  endpoints:
+    web:
+      exposure: 
+        include: health, prometheus
   data:
     mongodb:
       uri: mongodb+srv://carodriguez19:testingtesting123@cluster0.xpofgue.mongodb.net/
