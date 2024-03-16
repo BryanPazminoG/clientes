@@ -24,7 +24,7 @@ public class ClienteNaturalRestService {
     }
     
     public ResponseEntity<String> obtenerClientesNaturales(){
-        String url = "http://localhost:8081/api/v1/naturales";
+        String url = "https://clientes-atnhilz3dq-rj.a.run.app:8081/api/v1/naturales";
 
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
@@ -36,7 +36,7 @@ public class ClienteNaturalRestService {
 
     @GetMapping("/{tipoId}/{id}")
     public ResponseEntity<String> buscarPorIdentificacion(@PathVariable(name = "tipoId") String tipoId, @PathVariable(name = "id") String id){
-        String url = "http://localhost:8081/api/v1/naturales/"+ tipoId + "/"+ id;
+        String url = "https://clientes-atnhilz3dq-rj.a.run.app:8081/api/v1/naturales/"+ tipoId + "/"+ id;
 
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
@@ -47,7 +47,7 @@ public class ClienteNaturalRestService {
     }
 
     public ResponseEntity<String> obtenerPorTipoIdentificacionYNumero(String tipo, String numero) {
-        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/naturales/")
+        String url = UriComponentsBuilder.fromHttpUrl("https://clientes-atnhilz3dq-rj.a.run.app:8081/api/v1/naturales/")
                 .pathSegment(tipo, numero)
                 .build()
                 .toString();
@@ -55,7 +55,7 @@ public class ClienteNaturalRestService {
     }
     
     public ResponseEntity<String> obtenerPorId(String id) {
-        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/naturales/")
+        String url = UriComponentsBuilder.fromHttpUrl("https://clientes-atnhilz3dq-rj.a.run.app:8081/api/v1/naturales/")
                 .path("/{id}")
                 .buildAndExpand(id)
                 .toUriString();
@@ -63,7 +63,7 @@ public class ClienteNaturalRestService {
     }
 
     public ResponseEntity<String> desactivar(String id) {
-        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8081/api/v1/naturales/")
+        String url = UriComponentsBuilder.fromHttpUrl("https://clientes-atnhilz3dq-rj.a.run.app:8081/api/v1/naturales/")
                 .path("/desactivar/{id}")
                 .buildAndExpand(id)
                 .toUriString();
@@ -72,14 +72,14 @@ public class ClienteNaturalRestService {
     }
 
     public ResponseEntity<String> crearClienteNatural(String clienteJson) {
-        String url = "http://localhost:8081/api/v1/naturales";
+        String url = "https://clientes-atnhilz3dq-rj.a.run.app:8081/api/v1/naturales";
         HttpEntity<String> requestEntity = new HttpEntity<>(clienteJson, headers);
         return restTemplate.postForEntity(url, requestEntity, String.class);
     }
 
     public ResponseEntity<String> actualizarClienteNatural(String clienteJson) {
         try {
-            String url = "http://localhost:8081/api/v1/naturales";
+            String url = "https://clientes-atnhilz3dq-rj.a.run.app:8081/api/v1/naturales";
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<String> requestEntity = new HttpEntity<>(clienteJson, headers);
