@@ -1,0 +1,16 @@
+server.port: 8080
+server.error.include-message: always
+
+logging:
+  level:
+    root: INFO
+
+spring:
+  application:
+    name: Clientes-Application
+
+management:
+  endpoints:
+    web:
+      exposure: 
+        include: health, prometheus

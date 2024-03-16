@@ -1,0 +1,21 @@
+server.port: 8082
+server.error.include-message: always
+
+logging:
+  level:
+    root: INFO
+    
+spring:
+  application:
+    name: Empresas-Application
+  data:
+    mongodb:
+      uri: mongodb+srv://carodriguez19:testingtesting123@cluster0.xpofgue.mongodb.net/
+      database: Clientes
+      auto-index-creation: true
+
+management:
+  endpoints:
+    web:
+      exposure: 
+        include: health, prometheus
